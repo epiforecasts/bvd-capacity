@@ -20,6 +20,11 @@
 #'   `place_only`  the place is in the register but the kind is not there
 #'   `unmatched`   the external document names a facility the register lacks
 #'
+#' Only an `id` row carries a `facility_id`. A `place_kind` row's facility is
+#' a guess from place and kind, and sits in `facility_id_guess` instead, so
+#' that filtering or joining on `facility_id` cannot count a guess as a
+#' second publisher naming that facility.
+#'
 #' `unmatched` is the interesting column. It is either a facility the reports
 #' never named, or a name for one they named differently, and both are worth
 #' a person's eye. Nothing here writes into the register.
@@ -126,10 +131,9 @@ ev <- merge(ev, by_place[n == 1L, .(place_key, site_kind,
 
 place_exists <- unique(facilities$place_key)
 
-ev[, facility_id := fcase(
-    !is.na(id_by_name), id_by_name,
-    !is.na(id_by_place), id_by_place,
-    default = NA_character_)]
+ev[, facility_id := fifelse(!is.na(id_by_name), id_by_name, NA_character_)]
+ev[, facility_id_guess := fifelse(is.na(id_by_name) & !is.na(id_by_place),
+    id_by_place, NA_character_)]
 ev[, match_kind := fcase(
     !is.na(id_by_name), "id",
     !is.na(id_by_place), "place_kind",
@@ -139,7 +143,7 @@ ev[, match_kind := fcase(
 out <- ev[, .(source, doc_id, report_date, publisher, licence, url,
     facility_raw, site_kind, name_status, place_raw, health_zone, province,
     event, beds, status_note, evidence_quote, confidence,
-    facility_id, match_kind)]
+    facility_id, facility_id_guess, match_kind)]
 setorder(out, report_date, facility_raw)
 #' One file a source. The AFRO reports and the DONs corroborate different
 #' things and are worth reading apart.
@@ -150,11 +154,18 @@ fwrite(out, sub("\\.csv$", paste0("_", SOURCE, ".csv"), corroboration_path()))
 message("\nHow each external mention met the register:")
 print(out[, .N, keyby = match_kind])
 
-matched <- out[match_kind %in% c("id", "place_kind") & !is.na(facility_id)]
+matched <- out[match_kind == "id"]
 if (nrow(matched)) {
     message("\nFacilities a second publisher also names:")
-    print(unique(matched[, .(facility_id, site_kind, docs = uniqueN(doc_id)),
-        by = facility_id][, .(facility_id, site_kind, docs)]))
+    print(matched[, .(site_kind = site_kind[1], docs = uniqueN(doc_id)),
+        by = facility_id])
+}
+
+guessed <- out[match_kind == "place_kind"]
+if (nrow(guessed)) {
+    message("\nMatched on place and kind only, not confirmation:")
+    print(guessed[, .(site_kind = site_kind[1], docs = uniqueN(doc_id)),
+        by = .(facility_raw, facility_id_guess)])
 }
 
 if (out[match_kind == "unmatched", .N]) {

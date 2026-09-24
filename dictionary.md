@@ -259,7 +259,8 @@ quote gate. One file a source: `who_don` for WHO's Disease Outbreak News,
 | `source`, `doc_id`, `publisher`, `licence`, `url` | where the mention came from and under what terms |
 | `report_date` | the document's own date |
 | `facility_raw` … `confidence` | as in `facility_events.csv`, read by the same schema |
-| `facility_id` | the register facility this matched, empty where none |
+| `facility_id` | the register facility the external name folds to; filled only on `id` rows |
+| `facility_id_guess` | on `place_kind` rows only, the one register facility with the same place and kind. A guess, not a second publisher naming it |
 | `match_kind` | `id` (the name folds to a register id), `place_kind` (same place and kind as exactly one facility), `place_only` (the place is known, the kind is not there), `unmatched` |
 
 `unmatched` is the column to read. It is either a facility the situation

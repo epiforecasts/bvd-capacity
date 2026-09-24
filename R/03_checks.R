@@ -229,6 +229,30 @@ for (col in pairs) {
     }
 }
 
+# ------------------------------------------------------- corroboration
+
+#' A `facility_id` in the corroboration tables means a second publisher named
+#' that facility. A match on place and kind alone is a guess and must sit in
+#' `facility_id_guess`, or a join on `facility_id` counts it as confirmation.
+for (path in Sys.glob(here::here("data", "external_corroboration_*.csv"))) {
+    corr <- fread(path, colClasses = list(character = c("facility_id", "facility_id_guess")))
+    over_read <- corr[match_kind != "id" & nzchar(facility_id)]
+    if (nrow(over_read)) {
+        show(over_read[, .(doc_id, facility_raw, match_kind, facility_id)])
+        fail(nrow(over_read), " rows in ", basename(path),
+            " carry a facility_id without matching it by name")
+    }
+    unfilled <- corr[(match_kind == "id" & !nzchar(facility_id)) |
+        (match_kind == "place_kind" & !nzchar(facility_id_guess))]
+    if (nrow(unfilled)) {
+        show(unfilled[, .(doc_id, facility_raw, match_kind)])
+        fail(nrow(unfilled), " matched rows in ", basename(path), " name no facility")
+    }
+    unknown <- setdiff(c(corr$facility_id, corr$facility_id_guess), c("", registry$facility_id))
+    if (length(unknown)) fail(length(unknown), " facility ids in ", basename(path),
+        " not in the registry: ", paste(head(unknown, 3), collapse = ", "))
+}
+
 # ----------------------------------------------------------------- counts
 
 message("\nEvents ", nrow(events), " over ", uniqueN(events$sitrep),
