@@ -57,3 +57,30 @@ In-page comments tagged `UNCERTAIN:` point back to these.
    site changes only when someone renders locally (`Rscript R/main.R report`)
    and commits the freeze. Chosen because installing R and the tidy stack in
    CI adds several minutes a push and a second dependency set to maintain.
+
+9. Frozen pages do not notice new data. `freeze: auto` re-executes a page
+   only when its source changes, not when `data/` does, so a project render
+   after a data update silently republishes old figures. Rendering a single
+   file ignores the freeze, so the runner's report stage renders each page
+   by name and then the project. Anyone rendering by hand needs to do the
+   same.
+
+10. Rule 2's numerator (open). For afro-12, 2 August, no beds-occupied
+    figure is printed, so the capacity decision used patients in isolation
+    (707 of 1,050 beds, 67.3 %) and preferred it over the headline 72.4 %.
+    Patients in isolation may include people in transit centres whose beds
+    are not in the 1,050. If so the headline figure is the better one, and
+    rule 3 would have picked it. Worth a second look.
+
+11. A misread figure, left unsettled by the #2 agent. afro-12's
+    `facilities_operational` has 33 (treatment facilities) and 8 (sites that
+    completed an IPC/WASH assessment). The 8 is not a count of operational
+    facilities; it was mis-labelled at extraction. I settled it as 33 in
+    `registry/capacity_decisions.csv` (decided_by claude-code).
+
+12. "From A to B" with A at outbreak onset. The laboratories rows say
+    "increasing from two laboratories at the onset". Rule 1 correctly prefers
+    the current figure, but the 2 is then stored against the report's date,
+    where it is wrong rather than merely superseded. It stays in the table
+    with `preferred = FALSE`; a consumer ignoring `preferred` would see a
+    laboratory count dropping to 2 in September.

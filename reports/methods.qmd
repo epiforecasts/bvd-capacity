@@ -147,7 +147,7 @@ seen building and never seen open. For most sites the only honest statement
 is "open by this date".
 
 ```{r fig-cte-timeline}
-#| fig-cap: "Treatment centres: the interval each opening falls in. A segment runs from the last report showing the centre not yet open to the first showing it open. A lone dot is left censored: open by then, earlier unknown. An open circle was never seen open."
+#| fig-cap: "Treatment centres: the interval each opening falls in. A segment runs from the last report showing the centre not yet open to the first showing it open. A lone dot is left censored: open by then, earlier unknown. An open circle was never seen open, and sits at the last report showing it not yet open."
 #| fig-alt: "Timeline of about seventy treatment centres ordered by opening. Most are single dots; thirteen have short segments of a few days."
 #| fig-height: 9
 tl <- opening[site_kind == "treatment_centre"]
@@ -207,19 +207,25 @@ Sherratt on 26 September 2026 and recorded in
 1. "Increased from A to B": B is current; A belongs to the week before.
 2. Where the report states a numerator and denominator, the occupancy
    consistent with them is preferred over a printed percentage that
-   contradicts them.
+   contradicts them. Where no beds-occupied figure is printed, patients in
+   isolation stands in as the numerator.
 3. Otherwise the headline figure box beats a narrative sentence.
 
 ```{r tab-conflicts, eval = !is.null(conflicts)}
-cf <- conflicts[, .(figures = .N, preferred = sum(as.logical(preferred))),
-    by = .(indicator)]
-html_table(cf[order(-figures), .(Indicator = indicator,
-    `Figures in conflict` = figures, `Preferred` = preferred)],
-    align = c("l", "r", "r"))
+conflicts[, how := fcase(
+    startsWith(rule, "rule1"), "1: from A to B",
+    startsWith(rule, "rule2"), "2: numerator and denominator",
+    startsWith(rule, "rule3"), "3: headline box",
+    startsWith(rule, "decision"), "read by hand",
+    default = "not settled")]
+cf <- conflicts[, .(Figures = .N), by = .(Indicator = indicator,
+    `Settled by` = how)]
+html_table(cf[order(Indicator)], align = c("l", "l", "r"))
 ```
 
-<!-- UNCERTAIN: this section is written against the capacity decision branch
-(issue #2); check the table once that lands. -->
+<!-- UNCERTAIN: rule 2 treats patients in isolation as beds occupied when
+no occupied count is printed (afro-12). Isolation can include patients in
+transit centres not counted in bed capacity. See DEVLOG item 10. -->
 
 A key with no preferred figure is one the rules could not settle; it is
 listed in `checks/capacity_conflicts.csv` and left out of any series.
