@@ -229,6 +229,56 @@ for (col in pairs) {
     }
 }
 
+# --------------------------------------------------------------- capacity
+
+#' `preferred` says which of two figures sharing a key a series should read.
+#' Two things can go wrong once that column exists: a key with two rows both
+#' marked `preferred`, which would leave a series unable to choose, and a
+#' key with no `preferred` row at all that is not accounted for in
+#' `checks/capacity_conflicts.csv`, which would hide an unsettled conflict
+#' rather than record it. Both are failures; neither is about whether the
+#' model read a report well.
+if (file.exists(capacity_path())) {
+    capacity <- fread(capacity_path(), colClasses = "character")
+    if ("preferred" %in% names(capacity)) {
+        key_cols <- c("source", "doc_id", "as_of_date", "indicator", "level",
+            "country", "place", "period", "unit")
+        capacity[, preferred := preferred == "TRUE"]
+
+        two_preferred <- capacity[, .(n_preferred = sum(preferred)), by = key_cols][
+            n_preferred > 1L]
+        if (nrow(two_preferred)) {
+            fail(nrow(two_preferred), " capacity_indicators.csv keys with more than one preferred row")
+            show(two_preferred)
+        }
+
+        no_preferred <- unique(capacity[, .(n_preferred = sum(preferred)), by = key_cols][
+            n_preferred == 0L, ..key_cols])
+        if (nrow(no_preferred)) {
+            conflicts <- if (file.exists(capacity_conflicts_path())) {
+                fread(capacity_conflicts_path(), colClasses = "character")
+            } else {
+                data.table()
+            }
+            listed <- if (nrow(conflicts)) unique(conflicts[, ..key_cols]) else
+                no_preferred[0]
+            unlisted <- fsetdiff(no_preferred, listed)
+            if (nrow(unlisted)) {
+                fail(nrow(unlisted), " capacity_indicators.csv keys with no preferred row, ",
+                    "not listed in ", capacity_conflicts_path())
+                show(unlisted)
+            }
+        }
+        message("\nCapacity figures ", nrow(capacity), ", ",
+            capacity[(preferred), .N], " preferred, ",
+            capacity[ambiguous_key == "TRUE" & !(preferred), .N],
+            " left unpreferred inside a conflicting key.")
+    } else {
+        message("\ncapacity_indicators.csv has no preferred column yet; ",
+            "run R/31_capacity_preferred.R.")
+    }
+}
+
 # ----------------------------------------------------------------- counts
 
 message("\nEvents ", nrow(events), " over ", uniqueN(events$sitrep),

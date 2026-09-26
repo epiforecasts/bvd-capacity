@@ -10,10 +10,13 @@ This repository holds a dataset of when each Ebola treatment, transit and isolat
 > held apart until someone says otherwise, so the error runs towards splitting
 > one site into two. Ten naming questions are open in
 > [`checks/decisions/`](checks/decisions) and recorded in
-> [issue #1](https://github.com/epiforecasts/bvd-capacity/issues/1), and 48 of
-> the 193 capacity figures are marked `ambiguous_key` pending a decision about
-> what counts as a bed. Cite a version, read the quote on any row you rely on,
-> and expect ids to be merged as decisions land.
+> [issue #1](https://github.com/epiforecasts/bvd-capacity/issues/1), and 27 of
+> the 213 capacity figures are marked `ambiguous_key`: the document states
+> more than one figure for the same thing. A `preferred` column says which
+> one a series should read; of the 13 conflicts behind it, 10 are settled by
+> a mechanical rule, one by reading the quotes, and two are still unsettled.
+> Cite a version, read the quote on any row you rely on, and expect ids to
+> be merged as decisions land.
 
 Very many thanks to INSP and all those providing public access to these reports.
 
@@ -48,6 +51,13 @@ vocabulary and one row a figure. It exists because the INSP bed tables stop:
 July, while the outbreak runs into late September. WHO AFRO's weekly reports
 carry bed capacity and occupancy through 20 September, so the series
 continues where the national tables stop.
+
+A document sometimes gives two figures for the same indicator, level, place
+and date, and both stay in the table: the unchosen figure is evidence, not an
+error. `preferred` says which one a series should read, written by
+`R/31_capacity_preferred.R` from the rule in
+[`registry/capacity_decisions.csv`](registry/capacity_decisions.csv). See
+[dictionary.md](dictionary.md) for the rule and what remains unsettled.
 
 `data/facility_opening.csv` is the opening estimate: one row a facility,
 giving the interval its opening falls in, which evidence bounds each end, and
@@ -189,6 +199,17 @@ Rscript R/02_resolve.R && Rscript R/09_apply_decisions.R && Rscript R/02_resolve
 Day to day, with no new extraction, `R/09_apply_decisions.R` then
 `R/02_resolve.R` is enough.
 
+`R/30_capacity.R` and `R/31_capacity_preferred.R` are the capacity pipeline,
+run in that order:
+
+```sh
+Rscript R/30_capacity.R             # model calls; writes capacity_indicators.csv
+Rscript R/31_capacity_preferred.R   # no model calls; adds the preferred column
+```
+
+`R/31_capacity_preferred.R` needs no cache and no corpus checkout: it reads
+only `data/capacity_indicators.csv` and `registry/capacity_decisions.csv`.
+
 `R/01_facilities.R` expects a bvd-sitreps checkout beside this one, or
 `BVD_SITREPS` pointing at one. It reads that corpus by path and never opens a
 PDF. Extraction takes about three hours over 116 reports and should be run
@@ -264,6 +285,24 @@ and the quotes the bounds come from.
 Disagreeing with a recorded decision is welcome and is an ordinary pull
 request, or a comment on the issue that documents them. The decision belongs
 to whoever can read the evidence.
+
+## The capacity decisions
+
+`registry/capacity_decisions.csv` answers a narrower question: which of two
+figures for the same indicator, level, place and date a series should read,
+recorded in [issue #2](https://github.com/epiforecasts/bvd-capacity/issues/2).
+Decision `capacity-rules` is the rule, applied mechanically wherever the
+document's wording lets it: a change from A to B reads as B, an occupancy
+percentage consistent with a numerator and denominator stated in the same
+document beats one that contradicts it, and otherwise a headline figure block
+beats a narrative sentence. `R/31_capacity_preferred.R` applies it and writes
+`preferred` into `data/capacity_indicators.csv`.
+
+Three conflicts the rule does not settle mechanically each have their own
+row: one is decided, by reading the quotes, and two are left `unsettled`
+because the quotes give two different quantities or no total to choose
+between. Nothing is dropped either way; the unpreferred figure stays, with
+its quote.
 
 ## Limitations
 

@@ -85,6 +85,23 @@ indicator_appearances_path <- function() {
     here::here("data", "indicator_appearances.csv")
 }
 
+#' The capacity figures read from the WHO AFRO weekly reports, one row a
+#' figure. Written by `R/30_capacity.R`, and `R/31_capacity_preferred.R` adds
+#' `preferred` afterwards.
+capacity_path <- function() here::here("data", "capacity_indicators.csv")
+
+#' The rule for choosing among figures that share a key, and the conflict
+#' groups it does not settle mechanically, decided by reading the quotes.
+#' `R/09_apply_decisions.R` is the naming equivalent of this file.
+capacity_decisions_path <- function() {
+    here::here("registry", "capacity_decisions.csv")
+}
+
+#' Every row that shared a key with another: its value, whether it is
+#' `preferred`, and which rule or decision chose it. Written by
+#' `R/31_capacity_preferred.R`.
+capacity_conflicts_path <- function() checks_dir("capacity_conflicts.csv")
+
 ensure_dirs <- function() {
     for (d in c(cache_dir(), dirname(registry_path()), checks_dir(),
         runs_dir("logs"))) {
