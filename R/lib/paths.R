@@ -102,6 +102,22 @@ capacity_decisions_path <- function() {
 #' `R/31_capacity_preferred.R`.
 capacity_conflicts_path <- function() checks_dir("capacity_conflicts.csv")
 
+#' The closed set of INSP bed-table row labels, mapped by hand onto the fixed
+#' capacity vocabulary. `R/32_capacity_insp.R` reads this; a label it does not
+#' find here is a label a person has not looked at yet.
+insp_capacity_labels_path <- function() {
+    here::here("registry", "insp_capacity_labels.csv")
+}
+
+#' Every INSP table row `R/32_capacity_insp.R` could not use, and why:
+#' misaligned cells, an unmapped label, or a value it could not parse.
+insp_capacity_skipped_path <- function() checks_dir("insp_capacity_skipped.csv")
+
+#' Where INSP and WHO AFRO both give a national figure for the same
+#' indicator within three days, the two values side by side. Written by
+#' `R/32_capacity_insp.R`.
+capacity_insp_vs_afro_path <- function() checks_dir("capacity_insp_vs_afro.csv")
+
 ensure_dirs <- function() {
     for (d in c(cache_dir(), dirname(registry_path()), checks_dir(),
         runs_dir("logs"))) {
