@@ -35,6 +35,23 @@
 
 suppressMessages(library(data.table))
 
+#' `fread()` cannot correctly round-trip a field that mixes an embedded
+#' newline with more than one quoted segment, which is exactly the shape of
+#' an `evidence_quote` built from a header line and a data line where the
+#' data line itself has comma-decimal values in quoted cells (`"93,9%"`):
+#' each read through `fread` doubles the escaping further, so a value like
+#' `"93,9%"` inside the quote turns into `""93,9%""`, then `""""93,9%""""`,
+#' and so on every time the file is read and rewritten. `fwrite()` itself
+#' writes standard, correctly escaped CSV; the corruption is `fread()`
+#' failing to unescape it on the way back in. Base R's `read.csv()` parses
+#' the same file correctly, so `capacity_indicators.csv` is read with this
+#' wherever a script needs to read back what it or another script wrote,
+#' rather than with `fread()` directly.
+read_capacity_csv <- function(path) {
+    data.table::as.data.table(utils::read.csv(path, colClasses = "character",
+        check.names = FALSE, na.strings = NULL, encoding = "UTF-8"))
+}
+
 CAPACITY_KEY_COLS <- c("source", "doc_id", "as_of_date", "indicator",
     "level", "country", "place", "period", "unit")
 

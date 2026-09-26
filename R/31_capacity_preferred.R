@@ -47,7 +47,7 @@ suppressMessages({
 source(here::here("R", "lib", "paths.R"))
 source(here::here("R", "lib", "capacity_preferred.R"))
 
-dt <- fread(capacity_path(), colClasses = "character")
+dt <- read_capacity_csv(capacity_path())
 # A rerun reads a file that already carries `preferred`; drop it so the
 # column is recomputed and placed once.
 if ("preferred" %in% names(dt)) dt[, preferred := NULL]
