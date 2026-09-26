@@ -238,8 +238,9 @@ reference hospital of the other's zone, is one a health area inside it, are
 both registered separately, and does a facility of this name exist on the map
 at all. A finding is evidence on a sheet, never a decision.
 
-`data/external/LICENCE.md` and `data/reference/LICENCE.md` carry the terms.
-The MIT licence at the root covers this repository's code, never its sources.
+[`data/LICENCE.md`](data/LICENCE.md) carries the terms for every table,
+including these three. The MIT licence at the root covers this repository's
+code, never its sources.
 
 ## The naming decisions
 
@@ -343,9 +344,17 @@ All feedback, discussion, or contributions of any kind are very welcome. See [CO
 
 ## Licence
 
-The code in `R/` is MIT, in [LICENSE](LICENSE).
+The code in `R/` is MIT, in [LICENSE](LICENSE). That licence does not cover
+anything in `data/`; full terms, file by file, are in
+[data/LICENCE.md](data/LICENCE.md).
 
-`data/` is derived from situation reports published by INSP, who hold all
-rights attached to them. The extraction and the derived tables are published
-here under CC BY 4.0. `data/reference/grid3_places.csv` is GRID3's, under
-CC BY 4.0, cited above.
+| table | derived from | terms |
+|---|---|---|
+| `facilities.csv`, `facility_events.csv`, `facility_opening.csv`, `facility_flags.csv`, `organisations.csv`, `indicators.csv`, `indicator_appearances.csv` | INSP situation reports | INSP holds rights in the reports; this repository's extraction is CC BY 4.0 |
+| `capacity_indicators.csv`, `external_corroboration_who_afro.csv`, `external_corroboration_who_don.csv` | WHO AFRO and WHO DON | CC BY-NC-SA 3.0 IGO: non-commercial, share-alike, WHO's `evidence_quote` text stays WHO's |
+| `data/reference/grid3_places.csv` | GRID3 COD Health Facilities v8.0 | CC BY 4.0 |
+| `data/reference/osm_places.csv` | OpenStreetMap | ODbL 1.0, with attribution |
+
+Figures extracted from a source are facts and are not copyrightable; a
+verbatim quote in `evidence_quote` is the publisher's own text and carries
+that publisher's terms.
