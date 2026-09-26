@@ -1,0 +1,40 @@
+name: Deploy Pages
+
+# The report pages execute R, but their results are frozen in
+# reports/_freeze/, so this job only assembles the site and needs no R.
+# Render locally (Rscript R/main.R report) and commit the freeze to update it.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "reports/**"
+      - ".github/workflows/deploy-pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: quarto-dev/quarto-actions/setup@v2
+      - uses: actions/configure-pages@v5
+      - name: Render Quarto site from the freeze
+        run: quarto render reports
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: reports/_site/
+      - id: deployment
+        uses: actions/deploy-pages@v4
