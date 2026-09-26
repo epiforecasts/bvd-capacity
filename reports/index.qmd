@@ -123,9 +123,11 @@ ggplot(occ[!is.na(panel)], aes(as_of_date, value, colour = source,
     labs(x = NULL, y = "Occupancy (%)")
 ```
 
-<!-- UNCERTAIN: occupancy above 100% in Nord-Kivu is printed by WHO AFRO in
-several weeks. It is plausible (patients on mattresses, transit overflow) but
-not explained in the reports; it is shown as printed. -->
+Nord-Kivu held more patients than it had beds for most of July, in both the
+INSP daily tables and the WHO AFRO weekly reports. Neither says how: extra
+beds not yet counted, patients waiting in transit, or a bed count that lagged.
+
+<!-- UNCERTAIN: what occupancy above 100% counts. See DEVLOG item 5. -->
 
 ## Treatment centres
 

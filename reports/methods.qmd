@@ -246,6 +246,9 @@ lo <- max(span$from) - 14
 hi <- min(span$to) + 14
 ov <- ov[between(as_of_date, lo, hi)]
 ov[, seg := gap_group(as_of_date), by = .(source, indicator)]
+ov[, indicator := fcase(indicator == "bed_occupancy_pct", "Bed occupancy (%)",
+    indicator == "beds_capacity", "Active beds",
+    indicator == "patients_in_isolation", "Patients in isolation")]
 ggplot(ov, aes(as_of_date, value, colour = source,
     group = interaction(source, seg))) +
     geom_line(linewidth = 0.5) +
@@ -255,6 +258,29 @@ ggplot(ov, aes(as_of_date, value, colour = source,
     scale_x_date(date_labels = "%e %b") +
     labs(x = NULL, y = NULL)
 ```
+
+```{r tab-overlap, eval = has_insp}
+vs <- fread(data_path("..", "checks", "capacity_insp_vs_afro.csv"))
+vs <- vs[!is.na(ratio)]
+html_table(vs[, .(Pairs = .N,
+    `Median INSP / AFRO` = sprintf("%.2f", median(ratio)),
+    `Middle 80 %` = sprintf("%.2f to %.2f", quantile(ratio, 0.1),
+        quantile(ratio, 0.9))), by = .(Indicator = indicator)],
+    align = c("l", "r", "r", "r"))
+```
+
+Each INSP daily figure is paired with any WHO AFRO figure for the same
+indicator within three days, so part of the spread is a day's change rather
+than disagreement. Stock figures (beds, occupancy, patients in isolation)
+agree to within a few per cent at the median. Discharges do not: WHO AFRO's
+cumulative recoveries and INSP's daily `Sorties Guéris` are not the same
+count, and should not be joined.
+
+The close agreement is not independent confirmation. WHO AFRO's DRC figures
+are most likely compiled from the same national data INSP publishes, so the
+two sources agree because they share an origin. What the overlap does show is
+that the series can be spliced: INSP to early August, WHO AFRO after, with no
+step at the join.
 
 ## Before using this in a model
 

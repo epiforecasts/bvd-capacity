@@ -37,7 +37,8 @@ In-page comments tagged `UNCERTAIN:` point back to these.
    figures on one date. Rule 1 of the decision settles this.
 
 5. Occupancy above 100 %. WHO AFRO prints Nord-Kivu at 132 to 146 % in
-   several weeks. Shown as printed. The reports do not say whether patients
+   several weeks, and once the INSP tables were read (issue #3) INSP shows
+   the same, up to 160 % on one day in July. Shown as printed. The reports do not say whether patients
    were on extra mattresses, counted in transit centres against treatment
    beds, or whether the denominator lagged new beds. A modeller should not
    read it as a hard ceiling breached without checking the source.
@@ -84,3 +85,28 @@ In-page comments tagged `UNCERTAIN:` point back to these.
     where it is wrong rather than merely superseded. It stays in the table
     with `preferred = FALSE`; a consumer ignoring `preferred` would see a
     laboratory count dropping to 2 in September.
+
+13. The 13 September bed figure (open). Kath's rule 3 (headline box over
+    narrative) picks 1,366 for afro-18, which is exactly the 6 September
+    figure from the week before. The narrative's 1,390 fits a series rising
+    every week. The headline box may simply not have been updated. The plot
+    shows a flat week that is probably an artefact. Worth revisiting rule 3
+    for this one key, or adding a check that a headline equal to the prior
+    week's figure yields to a narrative that differs.
+
+14. `fread` and multi-line quotes. The #3 agent found that
+    `data.table::fread` misreads `evidence_quote` fields that hold a newline
+    and several quoted segments (223 of 2,280 rows), and switched the
+    pipeline to a base-R reader. Row counts and values read identically
+    either way, so the reports keep `fread`; they never show a quote. Anyone
+    reading quotes should use `read_capacity_csv()` in
+    `R/lib/capacity_preferred.R`.
+
+15. INSP and WHO AFRO agree too well to be independent. Stock figures agree
+    at a median ratio of 1.00. That makes the splice seamless, but it means
+    the overlap is not corroboration. Said in the methods page.
+
+16. Discharges do not match across sources (median ratio 0.67). WHO AFRO's
+    `discharges_recovered` is cumulative recoveries; INSP's is daily
+    `Sorties Guéris`, and the comparison paired them where the period
+    matched. Neither report defines the terms. Not used in either page.
