@@ -19,8 +19,8 @@
 #'             have already fetched the WHO documents in that repository.
 #'   capacity  model calls. 30_capacity, then R/31_capacity_preferred.R if
 #'             that file exists (it is being added on another branch).
-#'   report    quarto render reports/, if a reports/ directory exists (it is
-#'             being added on another branch).
+#'   report    re-execute each page in reports/ against the current data,
+#'             then assemble the site
 #'
 #' `derive` is the default because it is the one stage that is safe to run
 #' any time, on no budget and no network: two of its nine steps resolve the
@@ -128,20 +128,29 @@ run_capacity <- function() {
     }
 }
 
+# The pages freeze their results so the Pages workflow needs no R, and a
+# frozen page re-executes only when its own source changes, not when data/
+# does. Rendering a page by name ignores the freeze, so each page is rendered
+# by name first and the site assembled after.
 run_report <- function() {
-    if (dir.exists(here::here("reports"))) {
-        message("\n==> quarto render reports/")
-        start <- Sys.time()
-        status <- system2("quarto", c("render", here::here("reports")))
-        elapsed <- round(as.numeric(difftime(Sys.time(), start, units = "secs")), 1)
-        message("quarto render reports/ (", elapsed, "s)")
-        if (status != 0L) {
-            stop("quarto render exited with status ", status, "; stopping.", call. = FALSE)
-        }
-    } else {
-        message("\nreports/ not found; skipping (it is being added on ",
-            "another branch).")
+    dir <- here::here("reports")
+    if (!dir.exists(dir)) {
+        message("\nreports/ not found; skipping.")
+        return(invisible())
     }
+    pages <- list.files(dir, pattern = "\\.qmd$", full.names = TRUE)
+    for (target in c(pages, dir)) {
+        message("\n==> quarto render ", basename(target))
+        start <- Sys.time()
+        status <- system2("quarto", c("render", target))
+        elapsed <- round(as.numeric(difftime(Sys.time(), start, units = "secs")), 1)
+        message(basename(target), " (", elapsed, "s)")
+        if (status != 0L) {
+            stop("quarto render exited with status ", status, "; stopping.",
+                call. = FALSE)
+        }
+    }
+    message("\nCommit reports/_freeze/ so the published site picks this up.")
 }
 
 RUNNERS <- list(
