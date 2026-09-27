@@ -165,6 +165,29 @@ fails while any remain.
 
 ## Running it
 
+`R/main.R` runs the steps in the order they depend on, so nobody has to
+remember it. It runs each step as its own `Rscript` process, prints the step
+name and its time, and stops at the first one that fails.
+
+```sh
+Rscript R/main.R              # derive: no model, no network
+Rscript R/main.R extract      # model calls; ~3 hours, see below
+Rscript R/main.R external     # model calls; needs bvd-sitreps' WHO fetch
+Rscript R/main.R capacity     # model calls
+Rscript R/main.R report       # quarto render, once reports/ exists
+```
+
+`derive` is the default and the one stage safe to run any time, on no budget
+and no network. It runs `02_resolve`, `09_apply_decisions`, `02_resolve`
+again, `03_checks`, `06_opening`, `07_organisations`, `04_review`,
+`05_places`, `08_decisions`. The repeated resolve is not a typo:
+`09_apply_decisions.R` edits the name vocabulary that `02_resolve.R` reads, so
+a decision reaches the data only on the next resolve. Skipping the second
+resolve leaves events pointing at ids the registry no longer holds, and
+`03_checks.R` fails with "facility_ids in the events not in the registry".
+
+The individual scripts, for reference:
+
 ```sh
 Rscript R/01_facilities.R          # model calls; --only=, --force, --cache=
 Rscript R/02_resolve.R             # no model calls
@@ -175,19 +198,11 @@ Rscript R/06_opening.R             # opening dates as intervals
 Rscript R/07_organisations.R       # who is named alongside a facility
 Rscript R/08_decisions.R           # a sheet a naming decision, with its quotes
 Rscript R/09_apply_decisions.R     # the decisions made, into the name vocabulary
+Rscript R/21_external_extract.R    # model calls; reads bvd-sitreps' WHO corpus
+Rscript R/22_external_match.R      # no model calls
+Rscript R/23_registers_suggest.R   # no model calls; GRID3 and OSM
+Rscript R/30_capacity.R            # model calls
 ```
-
-The order matters in one place. `R/09_apply_decisions.R` edits the name
-vocabulary and `R/02_resolve.R` reads it, so a decision reaches the data only
-on the next resolve. After a new extraction, which appends spellings the
-decisions have never seen, the sequence is resolve, apply, resolve again:
-
-```sh
-Rscript R/02_resolve.R && Rscript R/09_apply_decisions.R && Rscript R/02_resolve.R
-```
-
-Day to day, with no new extraction, `R/09_apply_decisions.R` then
-`R/02_resolve.R` is enough.
 
 `R/01_facilities.R` expects a bvd-sitreps checkout beside this one, or
 `BVD_SITREPS` pointing at one. It reads that corpus by path and never opens a
@@ -196,14 +211,17 @@ detached:
 
 ```sh
 mkdir -p runs/logs
-nohup caffeinate -is Rscript R/01_facilities.R \
+nohup caffeinate -is Rscript R/main.R extract \
   > runs/logs/facilities_$(date +%F-%H%M).log 2>&1 &
 ```
 
-Exit 3 means the model quota stopped the run; rerunning resumes from the
-cache. `data/cache/` is not committed, so steps 2 onwards run from a cache you
-built: the datasets in `data/` are the committed result. Changing a decision
-or the register and rerunning steps 2, 9 and 3 needs no model access.
+Exit 3 from a model step means the quota stopped it; rerunning resumes from
+the cache. `data/cache/` is not committed, so the `derive` stage runs from a
+cache you built: the datasets in `data/` are the committed result. Changing a
+decision or the register and rerunning `derive` needs no model access.
+
+`21_external_extract.R` needs bvd-sitreps' `R/06-fetch-who.R` to have already
+fetched the WHO documents in that repository.
 
 ## Other accounts of the same outbreak
 
