@@ -197,14 +197,19 @@ quote gate. One file a source: `who_don` for WHO's Disease Outbreak News,
 | `report_date` | the document's own date |
 | `facility_raw` … `confidence` | as in `facility_events.csv`, read by the same schema |
 | `facility_id` | the register facility the external name folds to; filled only on `id` rows |
-| `facility_id_guess` | on `place_kind` rows only, the one register facility with the same place and kind. A guess, not a second publisher naming it |
-| `match_kind` | `id` (the name folds to a register id), `place_kind` (same place and kind as exactly one facility), `place_only` (the place is known, the kind is not there), `unmatched` |
+| `facility_id_guess` | on `place_kind` rows only, the guessed facility of the same place and kind. A guess, not a second publisher naming it |
+| `match_kind` | `id` (the name folds to a register id), `place_kind` (a facility of the same place and kind is guessed), `place_only` (the place is in the register but no facility is guessed), `unmatched` |
+| `guess_basis` | how a `place_kind` guess was made: `only_candidate` (one facility of that kind at that place), `name_word` (the name carries a host word, CME/HGR/ISTM, exactly one candidate shares), `most_events` (otherwise, the candidate the INSP reports mention most), tried in that order |
+| `guess_withheld` | why no facility is guessed, on `place_only` rows and, for `no_place`, `unmatched` ones: `no_place` (no place to match on), `several_places` (one mention covering sites in more than one place), `pre_opening` (planned or under construction), `host_unmatched` (the name carries a host word no candidate shares), `tie` (the busiest candidates have equal events) |
 
 `unmatched` is the column to read. It is either a facility the situation
 reports never named, or a name for one they named differently. The WHO
 documents' unmatched rows are mostly facilities outside the Democratic
 Republic of the Congo: an isolation unit in Berlin, a university hospital in
 Frankfurt, the Mulago Isolation Treatment Unit in Kampala.
+
+A guess is withheld for `pre_opening` because the register's busiest centre
+at a place is the one least likely to be the one still being built.
 
 ### data/indicators.csv and data/indicator_appearances.csv
 

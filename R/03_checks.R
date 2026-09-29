@@ -231,11 +231,15 @@ for (col in pairs) {
 
 # ------------------------------------------------------- corroboration
 
+GUESS_BASIS <- c("only_candidate", "name_word", "most_events")
+GUESS_WITHHELD <- c("no_place", "several_places", "pre_opening", "host_unmatched", "tie")
+
 #' A `facility_id` in the corroboration tables means a second publisher named
 #' that facility. A match on place and kind alone is a guess and must sit in
 #' `facility_id_guess`, or a join on `facility_id` counts it as confirmation.
 for (path in Sys.glob(here::here("data", "external_corroboration_*.csv"))) {
-    corr <- fread(path, colClasses = list(character = c("facility_id", "facility_id_guess")))
+    corr <- fread(path, colClasses = list(character = c("facility_id",
+        "facility_id_guess", "guess_basis", "guess_withheld")))
     over_read <- corr[match_kind != "id" & nzchar(facility_id)]
     if (nrow(over_read)) {
         show(over_read[, .(doc_id, facility_raw, match_kind, facility_id)])
@@ -251,6 +255,43 @@ for (path in Sys.glob(here::here("data", "external_corroboration_*.csv"))) {
     unknown <- setdiff(c(corr$facility_id, corr$facility_id_guess), c("", registry$facility_id))
     if (length(unknown)) fail(length(unknown), " facility ids in ", basename(path),
         " not in the registry: ", paste(head(unknown, 3), collapse = ", "))
+
+    #' `guess_basis` says how a `place_kind` row's facility was guessed, and
+    #' carries nothing anywhere else.
+    bad_basis <- corr[nzchar(guess_basis) & !guess_basis %in% GUESS_BASIS]
+    if (nrow(bad_basis)) {
+        show(bad_basis[, .(doc_id, facility_raw, match_kind, guess_basis)])
+        fail(nrow(bad_basis), " rows in ", basename(path),
+            " carry a guess_basis outside the closed vocabulary")
+    }
+    basis_mismatch <- corr[nzchar(guess_basis) != (match_kind == "place_kind")]
+    if (nrow(basis_mismatch)) {
+        show(basis_mismatch[, .(doc_id, facility_raw, match_kind, guess_basis)])
+        fail(nrow(basis_mismatch), " rows in ", basename(path),
+            " have a guess_basis that disagrees with match_kind")
+    }
+
+    #' `guess_withheld` says why a guess was not made, so it never sits on a
+    #' row that already has one, by name or by place and kind.
+    bad_withheld <- corr[nzchar(guess_withheld) & !guess_withheld %in% GUESS_WITHHELD]
+    if (nrow(bad_withheld)) {
+        show(bad_withheld[, .(doc_id, facility_raw, match_kind, guess_withheld)])
+        fail(nrow(bad_withheld), " rows in ", basename(path),
+            " carry a guess_withheld outside the closed vocabulary")
+    }
+    withheld_on_matched <- corr[match_kind %in% c("id", "place_kind") & nzchar(guess_withheld)]
+    if (nrow(withheld_on_matched)) {
+        show(withheld_on_matched[, .(doc_id, facility_raw, match_kind, guess_withheld)])
+        fail(nrow(withheld_on_matched), " rows in ", basename(path),
+            " carry a guess_withheld on a row already matched")
+    }
+
+    guess_mismatch <- corr[nzchar(facility_id_guess) != nzchar(guess_basis)]
+    if (nrow(guess_mismatch)) {
+        show(guess_mismatch[, .(doc_id, facility_raw, facility_id_guess, guess_basis)])
+        fail(nrow(guess_mismatch), " rows in ", basename(path),
+            " have a facility_id_guess that disagrees with guess_basis")
+    }
 }
 
 # ----------------------------------------------------------------- counts
