@@ -175,6 +175,29 @@ fails while any remain.
 
 ## Running it
 
+`R/main.R` runs the steps in the order they depend on, so nobody has to
+remember it. It runs each step as its own `Rscript` process, prints the step
+name and its time, and stops at the first one that fails.
+
+```sh
+Rscript R/main.R              # derive: no model, no network
+Rscript R/main.R extract      # model calls; ~3 hours, see below
+Rscript R/main.R external     # model calls; needs bvd-sitreps' WHO fetch
+Rscript R/main.R capacity     # model calls
+Rscript R/main.R report       # quarto render, once reports/ exists
+```
+
+`derive` is the default and the one stage safe to run any time, on no budget
+and no network. It runs `02_resolve`, `09_apply_decisions`, `02_resolve`
+again, `03_checks`, `06_opening`, `07_organisations`, `04_review`,
+`05_places`, `08_decisions`. The repeated resolve is not a typo:
+`09_apply_decisions.R` edits the name vocabulary that `02_resolve.R` reads, so
+a decision reaches the data only on the next resolve. Skipping the second
+resolve leaves events pointing at ids the registry no longer holds, and
+`03_checks.R` fails with "facility_ids in the events not in the registry".
+
+The individual scripts, for reference:
+
 ```sh
 Rscript R/01_facilities.R          # model calls; --only=, --force, --cache=
 Rscript R/02_resolve.R             # no model calls
@@ -185,26 +208,11 @@ Rscript R/06_opening.R             # opening dates as intervals
 Rscript R/07_organisations.R       # who is named alongside a facility
 Rscript R/08_decisions.R           # a sheet a naming decision, with its quotes
 Rscript R/09_apply_decisions.R     # the decisions made, into the name vocabulary
-```
-
-The order matters in one place. `R/09_apply_decisions.R` edits the name
-vocabulary and `R/02_resolve.R` reads it, so a decision reaches the data only
-on the next resolve. After a new extraction, which appends spellings the
-decisions have never seen, the sequence is resolve, apply, resolve again:
-
-```sh
-Rscript R/02_resolve.R && Rscript R/09_apply_decisions.R && Rscript R/02_resolve.R
-```
-
-Day to day, with no new extraction, `R/09_apply_decisions.R` then
-`R/02_resolve.R` is enough.
-
-`R/30_capacity.R` and `R/31_capacity_preferred.R` are the capacity pipeline,
-run in that order:
-
-```sh
-Rscript R/30_capacity.R             # model calls; writes capacity_indicators.csv
-Rscript R/31_capacity_preferred.R   # no model calls; adds the preferred column
+Rscript R/21_external_extract.R    # model calls; reads bvd-sitreps' WHO corpus
+Rscript R/22_external_match.R      # no model calls
+Rscript R/23_registers_suggest.R   # no model calls; GRID3 and OSM
+Rscript R/30_capacity.R            # model calls
+Rscript R/31_capacity_preferred.R  # no model calls; adds the preferred column
 ```
 
 `R/31_capacity_preferred.R` needs no cache and no corpus checkout: it reads
@@ -217,14 +225,17 @@ detached:
 
 ```sh
 mkdir -p runs/logs
-nohup caffeinate -is Rscript R/01_facilities.R \
+nohup caffeinate -is Rscript R/main.R extract \
   > runs/logs/facilities_$(date +%F-%H%M).log 2>&1 &
 ```
 
-Exit 3 means the model quota stopped the run; rerunning resumes from the
-cache. `data/cache/` is not committed, so steps 2 onwards run from a cache you
-built: the datasets in `data/` are the committed result. Changing a decision
-or the register and rerunning steps 2, 9 and 3 needs no model access.
+Exit 3 from a model step means the quota stopped it; rerunning resumes from
+the cache. `data/cache/` is not committed, so the `derive` stage runs from a
+cache you built: the datasets in `data/` are the committed result. Changing a
+decision or the register and rerunning `derive` needs no model access.
+
+`21_external_extract.R` needs bvd-sitreps' `R/06-fetch-who.R` to have already
+fetched the WHO documents in that repository.
 
 ## Other accounts of the same outbreak
 
@@ -259,8 +270,9 @@ reference hospital of the other's zone, is one a health area inside it, are
 both registered separately, and does a facility of this name exist on the map
 at all. A finding is evidence on a sheet, never a decision.
 
-`data/external/LICENCE.md` and `data/reference/LICENCE.md` carry the terms.
-The MIT licence at the root covers this repository's code, never its sources.
+[`data/LICENCE.md`](data/LICENCE.md) carries the terms for every table,
+including these three. The MIT licence at the root covers this repository's
+code, never its sources.
 
 ## The naming decisions
 
@@ -382,9 +394,17 @@ All feedback, discussion, or contributions of any kind are very welcome. See [CO
 
 ## Licence
 
-The code in `R/` is MIT, in [LICENSE](LICENSE).
+The code in `R/` is MIT, in [LICENSE](LICENSE). That licence does not cover
+anything in `data/`; full terms, file by file, are in
+[data/LICENCE.md](data/LICENCE.md).
 
-`data/` is derived from situation reports published by INSP, who hold all
-rights attached to them. The extraction and the derived tables are published
-here under CC BY 4.0. `data/reference/grid3_places.csv` is GRID3's, under
-CC BY 4.0, cited above.
+| table | derived from | terms |
+|---|---|---|
+| `facilities.csv`, `facility_events.csv`, `facility_opening.csv`, `facility_flags.csv`, `organisations.csv`, `indicators.csv`, `indicator_appearances.csv` | INSP situation reports | INSP holds rights in the reports; this repository's extraction is CC BY 4.0 |
+| `capacity_indicators.csv`, `external_corroboration_who_afro.csv`, `external_corroboration_who_don.csv` | WHO AFRO and WHO DON | CC BY-NC-SA 3.0 IGO: non-commercial, share-alike, WHO's `evidence_quote` text stays WHO's |
+| `data/reference/grid3_places.csv` | GRID3 COD Health Facilities v8.0 | CC BY 4.0 |
+| `data/reference/osm_places.csv` | OpenStreetMap | ODbL 1.0, with attribution |
+
+Figures extracted from a source are facts and are not copyrightable; a
+verbatim quote in `evidence_quote` is the publisher's own text and carries
+that publisher's terms.
