@@ -1,0 +1,40 @@
+source,doc_id,as_of_date,indicator,level,country,place,period,unit,value,confidence,preferred,rule,evidence_quote
+who_afro,afro-04,2026-06-07,escapes,national,Democratic Republic of the Congo,"",7d,patients,6,high,FALSE,unsettled:capacity-afro04-2026-06-07-escapes,"During the reporting period, six suspected and four confirmed cases reportedly absconded from care facilities"
+who_afro,afro-04,2026-06-07,escapes,national,Democratic Republic of the Congo,"",7d,patients,4,high,FALSE,unsettled:capacity-afro04-2026-06-07-escapes,"During the reporting period, six suspected and four confirmed cases reportedly absconded from care facilities"
+who_afro,afro-04,2026-06-07,patients_in_isolation,national,Democratic Republic of the Congo,"",point,patients,309,high,TRUE,decision:capacity-afro04-2026-06-07-patients-in-isolation,"As of 7 June 2026, a total of 309 patients were in isolation across treatment and transit centres in the Democratic Republic of the Congo, including 116 confirmed and 193 suspected cases."
+who_afro,afro-04,2026-06-07,patients_in_isolation,national,Democratic Republic of the Congo,"",point,patients,116,high,FALSE,decision:capacity-afro04-2026-06-07-patients-in-isolation,"As of 7 June 2026, a total of 309 patients were in isolation across treatment and transit centres in the Democratic Republic of the Congo, including 116 confirmed and 193 suspected cases."
+who_afro,afro-04,2026-06-07,patients_in_isolation,national,Democratic Republic of the Congo,"",point,patients,193,high,FALSE,decision:capacity-afro04-2026-06-07-patients-in-isolation,"As of 7 June 2026, a total of 309 patients were in isolation across treatment and transit centres in the Democratic Republic of the Congo, including 116 confirmed and 193 suspected cases."
+who_afro,afro-11,2026-07-26,discharges_recovered,national,Democratic Republic of the Congo,"",cumulative,patients,583,high,TRUE,rule3_headline_over_narrative,"5 Provinces 4 Provinces 583 76.8% 15 498
+48 Health Zones 42 Health Zones Cases Bed Contacts
+Affected Active Transmission Recovered Occupancy to follow"
+who_afro,afro-11,2026-07-26,discharges_recovered,national,Democratic Republic of the Congo,"",cumulative,patients,568,high,FALSE,rule3_headline_over_narrative,"Clinical outcomes continued to improve, with cumulative recoveries increasing to 568 by 26 July 2026"
+who_afro,afro-12,2026-08-02,bed_occupancy_pct,national,Democratic Republic of the Congo,"",point,percent,72.4,low,FALSE,rule2_numerator_denominator,"5 Provinces 4 Provinces 727 72.4% 18 276
+51 Health Zones 42 Health Zones Cases Bed Contacts
+Affected Active Transmission Recovered Occupancy to follow"
+who_afro,afro-12,2026-08-02,bed_occupancy_pct,national,Democratic Republic of the Congo,"",point,percent,67.3,high,TRUE,rule2_numerator_denominator,"As of 2 August 2026, 707 patients were in isolation, corresponding to an overall bed occupancy rate of 67.3%."
+who_afro,afro-12,2026-08-02,facilities_operational,national,Democratic Republic of the Congo,"",point,facilities,33,high,TRUE,decision:capacity-afro12-2026-08-02-facilities-operational,"Case management capacity expansion continued to expand across the Democratic Republic of the Congo, with bed capacity increasing to 1050 across 33 treatment facilities."
+who_afro,afro-12,2026-08-02,facilities_operational,national,Democratic Republic of the Congo,"",point,facilities,8,high,FALSE,decision:capacity-afro12-2026-08-02-facilities-operational,IPC/WASH assessments were also completed at all eight Ebola treatment centres (ETCs).
+who_afro,afro-15,2026-08-23,beds_capacity,national,Democratic Republic of the Congo,"",point,beds,1184,high,FALSE,rule1_change_wording,Bed capacity also increased from 1 184 to 1 308 active beds
+who_afro,afro-15,2026-08-23,beds_capacity,national,Democratic Republic of the Congo,"",point,beds,1308,high,TRUE,rule1_change_wording,Bed capacity also increased from 1 184 to 1 308 active beds
+who_afro,afro-15,2026-08-23,facilities_operational,national,Democratic Republic of the Congo,"",point,facilities,33,high,FALSE,rule1_change_wording,"The operational treatment and transit facilities
+consolidated capacity has increased from 33 to 49."
+who_afro,afro-15,2026-08-23,facilities_operational,national,Democratic Republic of the Congo,"",point,facilities,49,high,TRUE,rule1_change_wording,"The operational treatment and transit facilities
+consolidated capacity has increased from 33 to 49."
+who_afro,afro-15,2026-08-23,laboratories_testing,national,Democratic Republic of the Congo,"",point,laboratories,2,high,FALSE,rule1_change_wording,"Diagnostic capacity continued to expand and decentralize, increasing from 2 laboratories at outbreak onset to
+22 active laboratories"
+who_afro,afro-15,2026-08-23,laboratories_testing,national,Democratic Republic of the Congo,"",point,laboratories,22,high,TRUE,rule1_change_wording,"Diagnostic capacity continued to expand and decentralize, increasing from 2 laboratories at outbreak onset to
+22 active laboratories"
+who_afro,afro-17,2026-09-06,bed_occupancy_pct,national,Democratic Republic of the Congo,"",point,percent,60,high,TRUE,rule2_numerator_denominator,"6 Provinces 5 Provinces 1 563 60.0% 24 479
+61 Health Zones 52 Health Zones Cases Bed Contacts
+Affected Active Transmission* Recovered Occupancy under follow up"
+who_afro,afro-17,2026-09-06,bed_occupancy_pct,national,Democratic Republic of the Congo,"",point,percent,62,high,FALSE,rule2_numerator_denominator,"with 49 treatment centres/units providing 1366 active beds, of which 819 were occupied by confirmed cases (62.0% occupancy) as of 6 September."
+who_afro,afro-17,2026-09-06,deaths_in_facility,national,Democratic Republic of the Congo,"",7d,patients,99,high,FALSE,rule1_change_wording,deaths occurring in treatment facilities continued to decline from 99 to 69 (−30.3%).
+who_afro,afro-17,2026-09-06,deaths_in_facility,national,Democratic Republic of the Congo,"",7d,patients,69,high,TRUE,rule1_change_wording,deaths occurring in treatment facilities continued to decline from 99 to 69 (−30.3%).
+who_afro,afro-17,2026-09-06,laboratories_testing,national,Democratic Republic of the Congo,"",point,laboratories,2,high,FALSE,rule1_change_wording,increasing from two laboratories at the onset of the outbreak to 25 active laboratories.
+who_afro,afro-17,2026-09-06,laboratories_testing,national,Democratic Republic of the Congo,"",point,laboratories,25,high,TRUE,rule1_change_wording,increasing from two laboratories at the onset of the outbreak to 25 active laboratories.
+who_afro,afro-18,2026-09-13,beds_capacity,national,Democratic Republic of the Congo,"",point,beds,1390,high,FALSE,rule3_headline_over_narrative,Case-management capacity includes 49 treatment centres/units providing 1390 active beds
+who_afro,afro-18,2026-09-13,beds_capacity,national,Democratic Republic of the Congo,"",point,beds,1366,low,TRUE,rule3_headline_over_narrative,"905 167 47 1 366 26
+Active Health Worker Health Worker Bed Testing
+Cases in Isolation Cases Deaths Capacity Laboratories"
+who_afro,afro-19,2026-09-20,laboratories_testing,national,Democratic Republic of the Congo,"",point,laboratories,2,high,FALSE,rule1_change_wording,increasing from two laboratories at the onset of the outbreak to 26 active laboratories.
+who_afro,afro-19,2026-09-20,laboratories_testing,national,Democratic Republic of the Congo,"",point,laboratories,26,high,TRUE,rule1_change_wording,increasing from two laboratories at the onset of the outbreak to 26 active laboratories.

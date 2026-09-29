@@ -31,8 +31,15 @@
 #' schema, a quote checked character for character against the text the model
 #' was shown. A figure whose quote is not a span of the document is dropped.
 #'
+#' A rerun writes fresh figures but no `preferred` column: that is
+#' `R/31_capacity_preferred.R`'s job, and it needs nothing this script wrote,
+#' only the corrected key below. Run that script after this one; this
+#' script's own end-of-run summary calls the same rule to report on the
+#' current run, but does not write the result.
+#'
 #' Usage:
 #'     Rscript R/30_capacity.R [--source=who_afro] [--only=ID] [--force]
+#'     Rscript R/31_capacity_preferred.R
 
 suppressMessages({
     library(data.table)
@@ -41,6 +48,7 @@ source(here::here("R", "lib", "paths.R"))
 source(here::here("R", "lib", "gemini.R"))
 source(here::here("R", "lib", "corpus.R"))
 source(here::here("R", "lib", "external.R"))
+source(here::here("R", "lib", "capacity_preferred.R"))
 
 args <- commandArgs(trailingOnly = TRUE)
 arg_value <- function(flag) {
@@ -100,7 +108,6 @@ SCHEMA_MD5 <- digest::digest(
 PROMPT_MD5 <- digest::digest(PROMPT, algo = "md5", serialize = FALSE)
 
 capacity_cache_dir <- function(...) here::here("data", "cache-capacity", ...)
-capacity_path <- function() here::here("data", "capacity_indicators.csv")
 
 extract_key <- function(text) {
     paste(c(digest::digest(text, algo = "md5", serialize = FALSE),
@@ -256,8 +263,14 @@ out[, place := canonical_place(place_raw, level)]
 #' be dropped here without choosing between them on no evidence. They are
 #' marked instead, so that anything building a series has to decide, rather
 #' than silently taking whichever row sorted first.
-out[, ambiguous_key := .N > 1L,
-    by = .(source, doc_id, as_of_date, indicator, level, place, period)]
+#'
+#' The key is `source, doc_id, as_of_date, indicator, level, country, place,
+#' period, unit`: not just indicator, level, place, period. Without `country`
+#' a national total for Uganda collided with the national total for the
+#' Democratic Republic of the Congo under one key, which is not a
+#' disagreement about one quantity. `mark_capacity_ambiguous()`, shared with
+#' `R/31_capacity_preferred.R`, is the one place this key is written.
+mark_capacity_ambiguous(out)
 
 setcolorder(out, c("source", "doc_id", "report_date", "as_of_date",
     "indicator", "level", "country", "place", "place_raw", "value", "unit",
@@ -273,14 +286,33 @@ print(out[, .(figures = .N, first = min(as_of_date), last = max(as_of_date)),
 
 if (out[(ambiguous_key), .N]) {
     message("\n", out[(ambiguous_key), .N],
-        " figures share a key with another and need a person to choose:")
+        " figures share a key with another and need a decision:")
     print(out[(ambiguous_key), .(doc_id, as_of_date, indicator, level, value)])
 }
 
-beds <- out[indicator %in% c("beds_capacity", "bed_occupancy_pct") &
-    level == "national" & !(ambiguous_key)]
+#' `preferred` is what a summary should read, not `!ambiguous_key`: a
+#' conflict the rules or a decision already settled still has a preferred
+#' row, and skipping it reopens the naming decisions in
+#' `registry/capacity_decisions.csv` here rather than reading them. This
+#' script does not write `preferred` (that is `R/31_capacity_preferred.R`,
+#' run after this one); it computes the same rule only for its own summary,
+#' from whatever decisions already exist.
+decisions_file <- capacity_decisions_path()
+capacity_decisions <- if (file.exists(decisions_file)) {
+    fread(decisions_file, colClasses = "character")[decision_id != "capacity-rules"]
+} else {
+    data.table(doc_id = character(), as_of_date = character(),
+        indicator = character(), level = character(), country = character(),
+        place = character(), period = character(), preferred_value = character(),
+        decision_id = character())
+}
+with_preferred <- resolve_capacity_preferred(out, capacity_decisions)$dt
+
+beds <- with_preferred[indicator %in% c("beds_capacity", "bed_occupancy_pct") &
+    level == "national" & (preferred)]
 if (nrow(beds)) {
-    message("\nNational bed capacity and occupancy, week by week:")
+    message("\nNational bed capacity and occupancy, week by week ",
+        "(preferred figure only):")
     print(dcast(beds, as_of_date ~ indicator, value.var = "value",
         fun.aggregate = function(x) x[1]))
 }

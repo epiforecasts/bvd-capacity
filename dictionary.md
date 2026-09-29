@@ -122,26 +122,6 @@ median gap between the announcement and the first report showing patients is
 minus four days, so `opened_by` takes whichever came first. `mention_only` is
 evidence neither way.
 
-
-
-One row a spelling. 795 rows. The only file meant to be edited by hand.
-
-| column | meaning |
-|---|---|
-| `facility_raw` | the spelling, as it appears in a report |
-| `name_key` | what identifies the facility: the kind of centre stripped out, the host hospital kept in |
-| `place_key` | what identifies the locality: every word naming a kind of building stripped out |
-| `site_kind` | the kind of site this spelling is taken to be |
-| `facility_id` | the facility it resolves to |
-| `reviewed` | TRUE where a person decided this row |
-| `note` | free text |
-
-`reviewed` is the whole point of the file. A row with `reviewed = FALSE` is a
-guess `R/02_resolve.R` made and will remake, so a correction to the keys takes
-effect without hand editing. A row with `reviewed = TRUE` is a decision and is
-never recomputed. To merge two facilities, set both rows to the same
-`facility_id` and mark them reviewed.
-
 ### data/facility_flags.csv
 
 One row a facility a flag. 369 rows. `group` names the set a flag put
@@ -229,7 +209,7 @@ health zone) and from free text. `topic_suggested` is this script's guess;
 
 ### data/capacity_indicators.csv
 
-One row a capacity figure, 193 of them, written by `R/30_capacity.R` from the
+One row a capacity figure, 213 of them, written by `R/30_capacity.R` from the
 WHO AFRO weekly reports. The vocabulary is fixed in the script so that a later
 pass over the INSP bed tables writes into this same table with a different
 `source`.
@@ -243,15 +223,36 @@ pass over the INSP bed tables writes into this same table with a different
 | `level` | `national`, `province`, `health_zone` or `facility` |
 | `country`, `place`, `place_raw` | where it applies; `place` folds `Ituri Province` and `North Kivu` onto the canonical six, `place_raw` keeps what the document wrote |
 | `value`, `unit`, `period` | the figure, what it counts, and whether it is a stock or a flow |
-| `ambiguous_key` | TRUE where the document states more than one figure for the same indicator, place and date |
+| `ambiguous_key` | TRUE where the document states more than one figure for the same indicator, level, country, place, period and unit, and `as_of_date` |
+| `preferred` | TRUE for the figure a series should read; see below |
 | `confidence`, `evidence_quote` | the model's own hedge, and the sentence the figure came from |
 
-`ambiguous_key` marks 48 of the 193, and the cause is usually definitional
-rather than a misreading. SitRep 18 gives 1,390 "active beds" in its
-case-management text and 1,366 "Bed Capacity" in its headline block; both are
-in the document, and choosing between them is a judgement about what a bed is.
-Anything building a series has to decide, which is why the rows are marked
-rather than silently thinned.
+`ambiguous_key` marks 27 of the 213. It used to mark 52, keyed without
+`country` and `unit`: a national total for Uganda then collided with the
+national total for the Democratic Republic of the Congo under one key (48
+figures across afro-03 to afro-10), which is not a disagreement about one
+quantity. Keying on `country` and `unit` as well, in
+`R/lib/capacity_preferred.R`, dropped 12 of the 25 conflict groups the coarse
+key found, with no judgement.
+
+`preferred` marks which of the remaining conflicting rows a series should
+use, written by `R/31_capacity_preferred.R` from the rule in decision
+`capacity-rules` (`registry/capacity_decisions.csv`): a figure that changed
+mid-sentence ("increased from A to B") reads as B; an occupancy percentage
+consistent with a numerator and denominator stated in the same document
+(within 0.5 percentage points) beats one that contradicts them; otherwise a
+headline figure block beats a narrative sentence. SitRep 18 gives 1,390
+"active beds" in its case-management text and 1,366 "Bed Capacity" in its
+headline block; both stay in the table, and 1,366 is `preferred`. A row with
+no conflict is `preferred`. Three of the 13 remaining conflict groups needed
+a person to read the quotes rather than a mechanical rule: one is settled and
+recorded as decision `capacity-afro04-2026-06-07-patients-in-isolation`, two
+are left unsettled (`capacity-afro04-2026-06-07-escapes` and
+`capacity-afro12-2026-08-02-facilities-operational`) because the quotes are
+two different quantities or give no total to choose between; every row of
+those two groups has `preferred = FALSE`. `checks/capacity_conflicts.csv`
+lists every row that ever shared a key, its value, whether it is preferred,
+and which rule or decision chose it.
 
 ### data/reference
 #### data/reference/osm_places.csv
@@ -279,6 +280,16 @@ What the other registers say about an open naming decision, written by
 which way it points. None of it decides anything.
 
 ### checks/place_check.csv
+
+One row a facility, written by `R/05_places.R`.
+`confirmed_in_zone` is TRUE where GRID3 lists that name inside that health
+zone, which is the strong form; `name_known` allows a match anywhere in the
+six provinces; `place_known` says only that the locality exists. `grid3_type`
+is what GRID3 calls it. A facility unknown to GRID3 is not necessarily wrong,
+since the response built structures no national register lists, but the list
+is mostly misspellings: `cte-elykia` is unknown where `cte-elikya` is
+confirmed.
+
 ### checks/rejected_events.csv
 
 What the quote gate dropped, 14 rows, written by `R/02_resolve.R`. The event
@@ -315,6 +326,15 @@ isolation centre get no sheet: no opening date depends on them.
 in. The decision itself is recorded in `registry/facility_aliases.csv`, which
 is what the pipeline reads; the sheet is the working.
 
+### checks/capacity_conflicts.csv
+
+Every row of `capacity_indicators.csv` that ever shared a key with another,
+written by `R/31_capacity_preferred.R`. One row a conflicting figure: its
+value, whether it is `preferred`, and `rule`, which names the rule
+(`rule1_change_wording`, `rule2_numerator_denominator`,
+`rule3_headline_over_narrative`) or decision (`decision:<decision_id>`) that
+chose it, or `unsettled` (or `unsettled:<decision_id>`) where none did.
+
 ## registry/
 ### registry/decisions.csv
 
@@ -344,16 +364,51 @@ needs its `merged_into` id to still exist and an `apart` needs at least two of
 its ids; `R/09_apply_decisions.R` reports and skips a row that fails, rather
 than applying a decision to a question the data no longer asks.
 
+### registry/capacity_decisions.csv
+
+The rule for choosing which of two capacity figures a series should read
+when a document gives more than one, plus a row for each conflict group the
+rule does not settle mechanically. The naming equivalent of
+`registry/decisions.csv`; `R/31_capacity_preferred.R` is what
+`R/09_apply_decisions.R` is there.
+
+| column | meaning |
+|---|---|
+| `decision_id` | `capacity-rules` for the rule itself, otherwise one row a conflict group |
+| `doc_id`, `as_of_date`, `indicator`, `level`, `country`, `place`, `period` | which figure this answers, empty on the `capacity-rules` row |
+| `preferred_value` | the value to prefer; empty where the group is left unsettled |
+| `rule` | `unsettled`, or free text for `capacity-rules` |
+| `decided_by`, `decided_on` | who, and when |
+| `note` | the reason, in the decider's words |
+
+`capacity-rules` is `kathsherratt`'s: where a figure changed mid-sentence
+("increased from A to B"), B is current; where the same document states a
+numerator and denominator, an occupancy percentage consistent with them
+(within 0.5 percentage points) beats one that contradicts them; otherwise a
+headline figure block beats a narrative sentence; a figure with no conflict
+is preferred. `R/lib/capacity_preferred.R` applies these three mechanically
+wherever the quote's shape lets it, which covers 10 of the 13 remaining
+conflict groups. The rest are `claude-code`'s: one settled by reading the
+quotes, `preferred_value` filled in; two left `unsettled`, `preferred_value`
+empty, because the quotes describe two different quantities, or give no
+total to choose between.
+
 ### registry/facility_aliases.csv
 
+One row a spelling. 795 rows. The only file meant to be edited by hand.
 
-One row a facility, written by `R/05_places.R`.
-`confirmed_in_zone` is TRUE where GRID3 lists that name inside that health
-zone, which is the strong form; `name_known` allows a match anywhere in the
-six provinces; `place_known` says only that the locality exists. `grid3_type`
-is what GRID3 calls it. A facility unknown to GRID3 is not necessarily wrong,
-since the response built structures no national register lists, but the list
-is mostly misspellings: `cte-elykia` is unknown where `cte-elikya` is
-confirmed.
+| column | meaning |
+|---|---|
+| `facility_raw` | the spelling, as it appears in a report |
+| `name_key` | what identifies the facility: the kind of centre stripped out, the host hospital kept in |
+| `place_key` | what identifies the locality: every word naming a kind of building stripped out |
+| `site_kind` | the kind of site this spelling is taken to be |
+| `facility_id` | the facility it resolves to |
+| `reviewed` | TRUE where a person decided this row |
+| `note` | free text |
 
-
+`reviewed` is the whole point of the file. A row with `reviewed = FALSE` is a
+guess `R/02_resolve.R` made and will remake, so a correction to the keys takes
+effect without hand editing. A row with `reviewed = TRUE` is a decision and is
+never recomputed. To merge two facilities, set both rows to the same
+`facility_id` and mark them reviewed.
