@@ -1,31 +1,16 @@
-`#ai-input`
+# Indicators of healthcare provision and capacity in the BVD outbreak
 
-# bvd-capacity
+> Under active review. This dataset needs to be read and corrected by people who know these facilities, and it will change as that happens.
 
 This repository holds a dataset of when each Ebola treatment, transit and isolation facility appeared, opened and came under strain during the 2026 Bundibugyo virus disease outbreak in the Democratic Republic of the Congo, read from the INSP situation reports.
 
-> Under active review. This dataset needs to be read and corrected by people
-> who know these facilities, and it will change when that happens. The
-> facility counts are an upper bound: names that are probably one centre are
-> held apart until someone says otherwise, so the error runs towards splitting
-> one site into two.
+Very many thanks to INSP, WHO AFRO, and all those providing public access to these reports.
 
-> - Naming questions are open in [`checks/decisions/`](checks/decisions) and recorded in
-> [issue #1](https://github.com/epiforecasts/bvd-capacity/issues/1)
-> - 27 of the 2,280 capacity figures are marked `ambiguous_key` (all from WHO AFRO; none of the INSP figures
-> conflict): the document states more than one
-> figure for the same thing.
-> - A `preferred` column says which one a series
-> should read. Of the 13 conflicts behind it, 10 are settled by a mechanical
-> rule, one by reading the quotes, and two are still unsettled.
+- Authors are in no way affiliated with INSP or WHO AFRO, and each data producer holds their own rights over the source material; see [citation](#citation) and [licence](#licence) details.
 
-> Please cite a dated version of this work in that light, and read the quote on any row you rely on.
-
-Very many thanks to INSP and all those providing public access to these reports.
-
-- Authors are in no way affiliated with INSP, and INSP hold complete rights over the source material; see [citation](#citation) and [licence](#licence) details.
-- Every row is extracted by Google Gemini, and you should assume this has **not been reviewed by a human**. Every row carries the French sentence it came from, checked character for character against the report, so please read the quote and the source report before relying on any row.
-- If you spot any errors, give feedback, or wish to contribute, you are very welcome and encouraged to open an [Issue](https://github.com/epiforecasts/bvd-capacity/issues).
+- Every row is extracted by Google Gemini, and you should assume this has **not been reviewed by a human**. Every row carries the French sentence it came from, checked character for character against the report.
+- In light of this, please cite a dated version of this work and please read the quote and the source report before relying on these data.
+- If you spot any errors (see below), give feedback, or wish to contribute, you are very welcome and encouraged to open an [Issue](https://github.com/epiforecasts/bvd-capacity/issues).
 
 | | |
 |---|---|
@@ -35,7 +20,15 @@ Very many thanks to INSP and all those providing public access to these reports.
 | Facilities | 604 |
 | Read by | `gemini-3.1-pro` at low thinking, one call a report |
 
-## The outputs
+## Errors
+
+The facility counts are an upper bound: names that are probably one centre are held apart until someone says otherwise, so the error runs towards splitting one site into two.
+
+- Naming questions are open in [`checks/decisions/`](checks/decisions) and recorded in [issue #1](https://github.com/epiforecasts/bvd-capacity/issues/1)
+- 27 of the 2,280 capacity figures are marked `ambiguous_key` (all from WHO AFRO; none of the INSP figures conflict): the document states more than one figure for the same thing.
+- A `preferred` column says which one a series should read. Of the 13 conflicts behind it, 10 are settled by a mechanical rule, one by reading the quotes, and two are still unsettled.
+
+## Outputs
 
 `data/facility_events.csv` is the observations: one row for each thing a
 report says about a facility. A facility mentioned in forty reports has forty
@@ -106,7 +99,7 @@ output and the spend ledger, and is not committed.
 | isolation centre | 21 | 6 | 8 |
 | other | 394 | 39 | 13 |
 
-Opening evidence, for the three kinds of site that hold patients:
+Evidence for the date of opening of a facility, for the three kinds of site that hold patients:
 
 | | bounded both sides | in service, no earlier bound | announced only | building, never seen open | nothing |
 |---|---|---|---|---|---|
@@ -138,19 +131,19 @@ zone, health area, locality, name and type. Rebuild it with
 `tools/grid3-lexicon.R`, which needs a BDBV2026-Data checkout and `sf`;
 nothing else in the pipeline needs either.
 
-It does three things.
+This does three things.
 
-It respells `province` to one of six canonical values, which removes the
+- It respells `province` to one of six canonical values, which removes the
 `Bas Uele` and `Nord-kivu` variants the reports contain.
 
-It fills a health zone or province the report left out, 901 zones and 332
+- It fills a health zone or province the report left out, 901 zones and 332
 provinces, and only where the place names exactly one zone inside the province
 the report already gave. Where the report gave a province or zone, GRID3 never
 overrides it. That direction is not cosmetic: names like Amani and Gloria
 belong to facilities in several provinces, so an unconstrained lookup silently
 moves facilities between them.
 
-It says which health zone's reference hospital carries which name. A zone has
+- It says which health zone's reference hospital carries which name. A zone has
 one, so `CTE de l'HGR Bunia` and `CTE de Bunia` are the same centre while
 `CTE de l'HGR Rwampara` and `CTE du CME Rwampara` are not. It also finds
 merges no comparison of strings could: the reference hospital of Butembo is
