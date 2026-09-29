@@ -46,7 +46,9 @@ counted as two until someone who knows the site says otherwise.
 
 ## At a glance
 
-Reports from `r fmt_date(report_first)` to `r fmt_date(report_last)` 2026.
+Facilities from INSP situation reports, `r fmt_date(report_first)` to
+`r fmt_date(report_last)` 2026. Bed figures from WHO AFRO's weekly reports,
+which run later.
 
 | | |
 |---|---|
@@ -57,8 +59,7 @@ Reports from `r fmt_date(report_first)` to `r fmt_date(report_last)` 2026.
 | Bed occupancy, `r fmt_date(last_occ$as_of_date)` (WHO AFRO) | `r sprintf("%.0f%%", last_occ$value)` |
 
 A site counts as open once a report shows it open or holding patients.
-`r sum(open_by$facility_id %in% closed)` of these are later reported closed
-and are still counted here.
+`r n_closed <- sum(open_by$facility_id %in% closed); if (n_closed) paste(n_closed, "of these are later reported closed and are still counted here.") else ""`
 
 ## Sites open over time
 
@@ -151,7 +152,8 @@ html_table(cte[, .(
     `Health zone` = health_zone,
     Centre = facility_name,
     `Open by` = fifelse(is.na(opened_by), "", fmt_date(opened_by)),
-    `Latest status` = paste0(status, ", ", fmt_date(status_latest_date)),
+    `Latest status` = fifelse(is.na(status_latest_date), status,
+        paste0(status, ", ", fmt_date(status_latest_date))),
     Beds = fifelse(is.na(beds_latest), "", as.character(beds_latest))
 )], align = c("l", "l", "l", "r", "l", "r"))
 ```

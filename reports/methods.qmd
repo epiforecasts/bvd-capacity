@@ -282,6 +282,30 @@ two sources agree because they share an origin. What the overlap does show is
 that the series can be spliced: INSP to early August, WHO AFRO after, with no
 step at the join.
 
+## INSP against BVDOutbreakSize
+
+```{r tab-bos}
+bos_path <- data_path("..", "checks", "compare_bos_province_care.csv")
+bos <- if (file.exists(bos_path)) fread(bos_path) else NULL
+if (!is.null(bos)) {
+    both <- bos[status %in% c("all_agree", "ours_differs")]
+    html_table(both[, .(Cells = .N, Agree = sum(status == "all_agree"),
+        `Second read only` = sum(is.na(bos_scan))),
+        by = .(Quantity = quantity)],
+        align = c("l", "r", "r", "r"))
+}
+```
+
+[BVDOutbreakSize](https://github.com/epiforecasts/BVDOutbreakSize) reads the
+same INSP province tables twice, a scan and a blind read, for its treatment
+model. `R/33_compare_bos.R` joins those reads to this repository's on SitRep
+and province, SitReps 018 to 080. Unlike WHO AFRO, these are separate reads of
+one printed table, so agreement here is a check on the reading, not on the
+source. "Second read only" counts cells where BVDOutbreakSize has only its
+blind read, for which this repository is the second. Escapes and patients in a
+bed have no counterpart there. The comparison records the BVDOutbreakSize
+commit it ran against, `r if (!is.null(bos)) substr(bos$bos_commit[1], 1, 8)`.
+
 ## Before using this in a model
 
 - Filter on `country`. The WHO AFRO rows include Uganda, and
