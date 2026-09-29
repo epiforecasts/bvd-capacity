@@ -4,20 +4,22 @@
 
 This repository holds a dataset of when each Ebola treatment, transit and isolation facility appeared, opened and came under strain during the 2026 Bundibugyo virus disease outbreak in the Democratic Republic of the Congo, read from the INSP situation reports.
 
-> Under active review. This dataset is being read and corrected by people
-> who know these facilities, and it will change while that happens. The
+> Under active review. This dataset needs to be read and corrected by people
+> who know these facilities, and it will change when that happens. The
 > facility counts are an upper bound: names that are probably one centre are
 > held apart until someone says otherwise, so the error runs towards splitting
-> one site into two. Ten naming questions are open in
-> [`checks/decisions/`](checks/decisions) and recorded in
-> [issue #1](https://github.com/epiforecasts/bvd-capacity/issues/1), and 27 of
-> the 2,280 capacity figures (all from WHO AFRO; none of the INSP figures
-> conflict) are marked `ambiguous_key`: the document states more than one
-> figure for the same thing. A `preferred` column says which one a series
-> should read; of the 13 conflicts behind it, 10 are settled by a mechanical
+> one site into two.
+
+> - Naming questions are open in [`checks/decisions/`](checks/decisions) and recorded in
+> [issue #1](https://github.com/epiforecasts/bvd-capacity/issues/1)
+> - 27 of the 2,280 capacity figures are marked `ambiguous_key` (all from WHO AFRO; none of the INSP figures
+> conflict): the document states more than one
+> figure for the same thing.
+> - A `preferred` column says which one a series
+> should read. Of the 13 conflicts behind it, 10 are settled by a mechanical
 > rule, one by reading the quotes, and two are still unsettled.
-> Cite a version, read the quote on any row you rely on, and expect ids to
-> be merged as decisions land.
+
+> Please cite a dated version of this work in that light, and read the quote on any row you rely on.
 
 Very many thanks to INSP and all those providing public access to these reports.
 
