@@ -24,7 +24,7 @@ site-aero,Aéro,other,bunia,Bunia,Ituri,1,1,TRUE,TRUE,TRUE,Centre de Santé,poss
 site-bundji,BUNDJI,other,beni,Beni,Nord-Kivu,1,1,TRUE,TRUE,TRUE,Centre de Santé,possible_same_site
 site-bunia-cite,Bunia-Cite,other,bunia,Bunia,Ituri,1,1,TRUE,TRUE,TRUE,Centre de Santé; Centre Hopitalier,possible_host_variant;possible_name_subset
 site-carl-becker,Carl Becker,other,beni,Beni,Nord-Kivu,1,1,TRUE,TRUE,TRUE,Centre Hopitalier,""
-site-ch-mudzi-maria,CH Mudzi Maria,other,mudzi maria,Bunia,"",1,1,TRUE,TRUE,TRUE,Centre Hopitalier,possible_host_variant;possible_spelling_variant
+site-ch-mudzi-maria,CH Mudzi Maria,other,mudzi maria,Bunia,Ituri,1,1,TRUE,TRUE,TRUE,Centre Hopitalier,possible_host_variant;possible_spelling_variant
 site-chahoboka,Chahoboka,other,chahoboka,Miti Murhesa,Sud-Kivu,1,1,TRUE,TRUE,TRUE,Centre de Santé,possible_spelling_variant
 site-damas,Damas,other,damas,Damas,Ituri,1,1,TRUE,TRUE,TRUE,Bureau Central de la Zone de Santé; Centre de Santé,""
 site-dele,DELE,other,dele,Rwampara,Ituri,1,1,TRUE,TRUE,TRUE,Centre de Santé,""
@@ -256,7 +256,7 @@ cte-foner-mambasa,CTE de Foner Mambasa,treatment_centre,foner mambasa,"",Ituri,1
 cte-iste,CTE ISTE,treatment_centre,iste,"",Ituri,1,1,FALSE,FALSE,FALSE,,""
 cte-istm-nyankunde-bunia,CTE de L'ISTM NYANKUNDE A BUNIA,treatment_centre,bunia,Bunia,Ituri,1,1,FALSE,FALSE,TRUE,,possible_missing_place;possible_name_subset
 cte-istm-zs-rwampara,CTE ISTM/ZS Rwampara,treatment_centre,rwampara,Rwampara,Ituri,1,1,FALSE,FALSE,TRUE,,possible_missing_place;possible_name_subset
-cte-juhudi,CTE de Juhudi,treatment_centre,juhudi,Nia-Nia,"",1,1,FALSE,FALSE,TRUE,,""
+cte-juhudi,CTE de Juhudi,treatment_centre,juhudi,Nia-Nia,Ituri,1,1,FALSE,FALSE,TRUE,,""
 cte-kalunguta,CTE Kalunguta,treatment_centre,kalunguta,Kalunguta,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 cte-mambasa-lolwa,Mambasa Lolwa,treatment_centre,mambasa lolwa,"",Ituri,1,1,FALSE,FALSE,FALSE,,""
 cte-munigi,CTE Munigi,treatment_centre,munigi,Nyiragongo,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
@@ -314,10 +314,10 @@ site-cem-nyankunde,CEM Nyankunde,other,nyankunde,Bunia,Ituri,1,1,FALSE,FALSE,TRU
 site-central-soleniama,Central soleniama,other,central soleniama,"","",1,1,FALSE,FALSE,FALSE,,""
 site-centre-hospitalier-bugarula,Centre hospitalier Bugarula,other,bugarula,Idjwi,Sud-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-centre-hospitalier-famille,Centre hospitalier La Famille,other,6 transversale,Kabondo,Tshopo,1,1,FALSE,FALSE,FALSE,,possible_host_variant
-site-centre-hospitalier-kavale,Centre Hospitalier Kavale,other,kavale,Musienene,"",1,1,FALSE,FALSE,FALSE,,""
-site-centre-hospitalier-sainte-rita,Centre Hospitalier Sainte Rita,other,sainte rita,Musienene,"",1,1,FALSE,FALSE,FALSE,,""
+site-centre-hospitalier-kavale,Centre Hospitalier Kavale,other,kavale,Musienene,Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
+site-centre-hospitalier-sainte-rita,Centre Hospitalier Sainte Rita,other,sainte rita,Musienene,Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-centre-hospitalier-tokobika,centre hospitalier TOKOBIKA,other,tokobika,"","",1,1,FALSE,FALSE,TRUE,,""
-site-centre-hospitalier-unibu,Centre Hospitalier UNIBU,other,lumumba,Bunia,"",1,1,FALSE,FALSE,TRUE,,possible_host_variant
+site-centre-hospitalier-unibu,Centre Hospitalier UNIBU,other,lumumba,Bunia,Ituri,1,1,FALSE,FALSE,TRUE,,possible_host_variant
 site-centre-medical-dalson,centre médical Dalson,other,dalson,"",Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-centre-medical-evangelique-nyakunde-cme-bunia,Centre Médical Evangélique Nyakunde (CME) de Bunia,other,bunia,Bunia,Ituri,1,1,FALSE,FALSE,TRUE,,possible_host_variant;possible_name_subset
 site-centre-medical-joie,centre médical La Joie,other,beni,Beni,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,possible_host_variant
@@ -348,11 +348,11 @@ site-ch-lwiro-centre,CH Lwiro Centre,other,lwiro,Miti-Murhesa,Sud-Kivu,1,1,FALSE
 site-ch-maghombi,CH Maghombi,other,oicha,Oicha,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-ch-malende,CH MALENDE,other,butembo,Butembo,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-ch-mattysen,CH MATTYSEN,other,mattysen,"","",1,1,FALSE,FALSE,FALSE,,""
-site-ch-mshimbakye,CH Mshimbakye,other,mshimbakye,Fizi,"",1,1,FALSE,FALSE,TRUE,,""
+site-ch-mshimbakye,CH Mshimbakye,other,mshimbakye,Fizi,Sud-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-ch-mudzi,CH Mudzi,other,mudzi,Bunia,Ituri,1,1,FALSE,FALSE,FALSE,,""
-site-ch-mukuna,CH Mukuna,other,mukuna,Katwa,"",1,1,FALSE,FALSE,TRUE,,possible_host_variant;possible_spelling_variant
+site-ch-mukuna,CH Mukuna,other,mukuna,Katwa,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,possible_host_variant;possible_spelling_variant
 site-ch-muzimaria,CH Muzimaria,other,muzimaria,"","",1,1,FALSE,FALSE,FALSE,,""
-site-ch-nyakaingwa,CH Nyakaingwa,other,nyakaingwa,Idjwi,"",1,1,FALSE,FALSE,FALSE,,""
+site-ch-nyakaingwa,CH Nyakaingwa,other,nyakaingwa,Idjwi,Sud-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-ch-paida,CH Paida,other,paida,Beni,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-ch-pimpester,CH Pimpester,other,pimpester,"",Haut-Uele,1,1,FALSE,FALSE,FALSE,,""
 site-ch-renaissance,CH La Renaissance,other,musienene,Musienene,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
@@ -402,7 +402,7 @@ site-cm-amani,CM Amani,other,amani,"",Ituri,1,1,FALSE,FALSE,TRUE,,possible_host_
 site-cm-anuarite,CM Anuarite,other,bunia,Bunia,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-cm-ave-maria,CM Ave maria,other,ave maria,"","",1,1,FALSE,FALSE,TRUE,,""
 site-cm-chirurgical-croix-verte,CM Chirurgical Croix Verte,other,chirurgical croix verte,"",Ituri,1,1,FALSE,FALSE,FALSE,,""
-site-cm-divine,CM Divine,other,divine,Rwampara,"",1,1,FALSE,FALSE,TRUE,,""
+site-cm-divine,CM Divine,other,divine,Rwampara,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-cm-divinite,CM la Divinité,other,divinite,"",Ituri,1,1,FALSE,FALSE,FALSE,,""
 site-cm-gazelle,CM La Gazelle,other,beni,Beni,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-cm-gloria,CM GLORIA,other,gloria,Rwampara,Ituri,1,1,FALSE,FALSE,TRUE,,possible_host_variant
@@ -452,7 +452,7 @@ site-cs-kasabinyale,CS Kasabinyale,other,beni,Beni,Nord-Kivu,1,1,FALSE,FALSE,TRU
 site-cs-kasisi,CS Kasisi,other,kasisi,Kyondo,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-cs-katiri,CS Katiri,other,katiri,Kyondo,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-cs-kavumu,CS Kavumu,other,kavumu,Miti Murhesa,Sud-Kivu,1,1,FALSE,FALSE,TRUE,,possible_host_variant;possible_spelling_variant
-site-cs-kisiza,CS Kisiza,other,kisiza,Idjwi,"",1,1,FALSE,FALSE,TRUE,,""
+site-cs-kisiza,CS Kisiza,other,kisiza,Idjwi,Sud-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-cs-konga-konga,CS Konga-Konga,other,konga konga,Makiso Kisangani,Tshopo,1,1,FALSE,FALSE,TRUE,,""
 site-cs-kutumba,CS Kutumba,other,kutumba,"",Ituri,1,1,FALSE,FALSE,FALSE,,""
 site-cs-kyaghala,CS Kyaghala,other,kyaghala,Katwa,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,possible_host_variant;possible_spelling_variant
@@ -472,8 +472,8 @@ site-cs-mutumbi,CS Mutumbi,other,lita,Lita,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-cs-naissance-desirable,CS Naissance Désirable,other,naissance desirable,"",Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-cs-ndindi,CS de Ndindi,other,ndindi,"",Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-cs-ngalika,CS Ngalika,other,ngalika,"",Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
-site-cs-ngamau,CS Ngamau,other,ngamau,Mongbwalu,"",1,1,FALSE,FALSE,TRUE,,""
-site-cs-ngona,CS Ngona,other,ngona,Rwampara,"",1,1,FALSE,FALSE,TRUE,,""
+site-cs-ngamau,CS Ngamau,other,ngamau,Mongbwalu,Ituri,1,1,FALSE,FALSE,TRUE,,""
+site-cs-ngona,CS Ngona,other,ngona,Rwampara,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-cs-nyakasanza,CS Nyakasanza,other,nyakasanza,Bunia,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-cs-nyakero,CS Nyakero,other,nyakero,"","",1,1,FALSE,FALSE,FALSE,,""
 site-cs-plutot,CS plutôt,other,plutot,"","",1,1,FALSE,FALSE,FALSE,,""
@@ -488,7 +488,7 @@ site-cs-salama,CS SALAMA,other,salama,"",Ituri,1,1,FALSE,FALSE,TRUE,,possible_ho
 site-cs-segama,CS Segama,other,segama,Mangobo,Tshopo,1,1,FALSE,FALSE,TRUE,,""
 site-cs-shamamba,CS Shamamba,other,shamamba,Beni,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-cs-sncc,CS SNCC,other,sncc,"","",1,1,FALSE,FALSE,TRUE,,""
-site-cs-sommet,CS le Sommet,other,sommet,Bunia,"",1,1,FALSE,FALSE,FALSE,,""
+site-cs-sommet,CS le Sommet,other,sommet,Bunia,Ituri,1,1,FALSE,FALSE,FALSE,,""
 site-cs-tchudja,CS Tchudja,other,tchudja,Bambu,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-cs-tsili,CS Tsili,other,tsili,Bambu,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-cs-tuungane,CS TUUNGANE,other,beni,Beni,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
@@ -496,7 +496,7 @@ site-cs-vighole,CS Vighole,other,katwa,Katwa,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-cs-vuhika,CS Vuhika,other,vuhika,Katwa,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-cs-vungba,CS Vungba,other,vungba,Viadana,Bas-Uele,1,1,FALSE,FALSE,TRUE,,""
 site-cs-vutike,CS Vutike,other,butembo,Butembo,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
-site-cs-yedi,CS Yedi,other,yedi,Mongbwalu,"",1,1,FALSE,FALSE,TRUE,,""
+site-cs-yedi,CS Yedi,other,yedi,Mongbwalu,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-csr-akwa,CSR Akwa,other,akwa,Damas,Ituri,1,1,FALSE,FALSE,FALSE,,""
 site-csr-amadi,CSR Amadi,other,amadi,Poko,Bas-Uele,1,1,FALSE,FALSE,TRUE,,""
 site-csr-bunia-cite,CSR Bunia-cité,other,bunia,Bunia,Ituri,1,1,FALSE,FALSE,TRUE,,possible_name_subset;possible_spelling_variant
@@ -526,7 +526,7 @@ site-dispensaire-mumole,dispensaire Mumole,other,mumole,Kyondo,Nord-Kivu,1,1,FAL
 site-dispensaire-pids,dispensaire PIDS,other,mangote,"",Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-dispensaire-sagesse-divine,dispensaire Sagesse Divine,other,dispensaire sagesse divine,"",Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-dispensaire-sifa,dispensaire Sifa,other,sifa,"",Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
-site-dispensaire-soins-traditionnels-kiheri,Dispensaire de soins traditionnels Kiheri,other,dispensaire soins traditionnels kiheri,Musienene,"",1,1,FALSE,FALSE,FALSE,,""
+site-dispensaire-soins-traditionnels-kiheri,Dispensaire de soins traditionnels Kiheri,other,dispensaire soins traditionnels kiheri,Musienene,Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-dispensaire-tuha,Dispensaire Tuha,other,tuha,Beni,Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-dispensaire-virunga,dispensaire Virunga,other,virunga,Karisimbi,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-dispensaires-guerison-divine,dispensaires Guérison Divine,other,dispensaires guerison divine,Beni,Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
@@ -546,7 +546,7 @@ site-hgr-nundu,HGR Nundu,other,nundu,Nundu,Sud-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-hgr-nyankunde,HGR/Nyankunde,other,nyankunde,Nyankunde,Ituri,1,1,FALSE,FALSE,TRUE,,possible_host_variant;possible_same_site
 site-hgr-zs-ganga,HGR de la ZS de Ganga,other,ganga,Ganga,Bas-Uele,1,1,FALSE,FALSE,TRUE,,""
 site-hgr-zs-nizi,HGR de la ZS de Nizi,other,nizi,Nizi,Ituri,1,1,FALSE,FALSE,TRUE,,""
-site-hgr-zs-oicha,HGR de la ZS d’Oicha,other,zs oicha,Oicha,"",1,1,FALSE,FALSE,FALSE,,""
+site-hgr-zs-oicha,HGR de la ZS d’Oicha,other,zs oicha,Oicha,Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-hgro,HGRO,other,tenambo,Oïcha,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-hopital-general-logo,Hôpital général de Logo,other,logo,Logo,Ituri,1,1,FALSE,FALSE,TRUE,,possible_host_variant;possible_same_host
 site-hopital-general-reference-buta,hôpital général de référence de Buta,other,buta,Buta,Bas-Uele,1,1,FALSE,FALSE,TRUE,,""
@@ -600,6 +600,6 @@ site-solferino,Solferino,other,solferino,"",Nord-Kivu,1,1,FALSE,FALSE,FALSE,,""
 site-source-vie,Source de Vie,other,katwa,Katwa,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-tente-hgr-nizi,tente de l’HGR Nizi,other,nizi,Nizi,Ituri,1,1,FALSE,FALSE,TRUE,,""
 site-tm-green-world-hospi,TM green World Hospi,other,tm green world hospi,"","",1,1,FALSE,FALSE,FALSE,,""
-site-top-sante,Top Santé,other,top sante,Bunia,"",1,1,FALSE,FALSE,FALSE,,""
+site-top-sante,Top Santé,other,top sante,Bunia,Ituri,1,1,FALSE,FALSE,FALSE,,""
 site-ucbc,UCBC,other,beni,Beni,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""
 site-unite-triage-hgr-vuhovi,unité de triage de l’HGR Vuhovi,other,vuhovi,Vuhovi,Nord-Kivu,1,1,FALSE,FALSE,TRUE,,""

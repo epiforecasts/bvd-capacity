@@ -1,0 +1,175 @@
+---
+title: "Ebola facilities and beds, DRC 2026"
+subtitle: "Bundibugyo virus disease outbreak: where patients could be treated, and how full it was"
+date: last-modified
+date-format: "D MMMM YYYY"
+---
+
+```{r setup}
+source("_common.R")
+
+drc <- capacity[country %in% c("Democratic Republic of the Congo", "") &
+    (preferred)]
+
+# Known open by a date: the latest date by which the reports show a site open
+# or holding patients. A lower bound on how many sites were open on any day.
+open_by <- opening[site_kind %in% c(PATIENT_KINDS, "hospital_isolation") &
+    !is.na(opened_by)]
+closed <- facilities[status_latest == "closed", facility_id]
+
+days <- seq(report_first, report_last, by = "day")
+open_curve <- open_by[, .(date = days, n = vapply(days,
+    \(d) sum(opened_by <= d), integer(1))), by = site_kind]
+open_curve[, kind := kind_label(site_kind)]
+
+latest_n <- open_by[, .N, by = site_kind]
+n_cte <- latest_n[site_kind == "treatment_centre", N]
+n_ct <- latest_n[site_kind == "transit_centre", N]
+n_ci <- latest_n[site_kind == "isolation_centre", N]
+
+beds_nat <- drc[indicator == "beds_capacity" & level == "national"][
+    order(as_of_date)]
+occ_nat <- drc[indicator == "bed_occupancy_pct" & level == "national"][
+    order(as_of_date)]
+last_beds <- beds_nat[.N]
+last_occ <- occ_nat[.N]
+```
+
+::: {.note}
+This page summarises a dataset that is still under review. Every figure is
+read by a language model from public situation reports and checked word for
+word against its source, but most rows have not yet been read by a person.
+Facility counts are an upper bound: where two names might be one site they are
+counted as two until someone who knows the site says otherwise.
+[Data and methods](methods.qmd) has the detail.
+:::
+
+## At a glance
+
+Facilities from INSP situation reports, `r fmt_date(report_first)` to
+`r fmt_date(report_last)` 2026. Bed figures from WHO AFRO's weekly reports,
+which run later.
+
+| | |
+|---|---|
+| Treatment centres (CTE) reported open | `r n_cte` |
+| Transit centres (CT) reported open | `r n_ct` |
+| Isolation centres (CI) reported open | `r n_ci` |
+| Active beds, `r fmt_date(last_beds$as_of_date)` (WHO AFRO) | `r fmt_n(last_beds$value)` |
+| Bed occupancy, `r fmt_date(last_occ$as_of_date)` (WHO AFRO) | `r sprintf("%.0f%%", last_occ$value)` |
+
+A site counts as open once a report shows it open or holding patients.
+`r n_closed <- sum(open_by$facility_id %in% closed); if (n_closed) paste(n_closed, "of these are later reported closed and are still counted here.") else ""`
+
+## Sites open over time
+
+```{r fig-open}
+#| fig-cap: "Sites reported open or holding patients, by the date a report first showed it. Each line can only rise: a closure is not subtracted. The true opening of most sites is earlier than the line shows, because the first report to mention a site usually finds it already working."
+#| fig-alt: "Step lines of cumulative sites open by kind, rising from mid-May to mid-September 2026. Hospital isolation and treatment centres grow most."
+ends <- open_curve[date == max(date)]
+ggplot(open_curve, aes(date, n, group = kind)) +
+    geom_step(aes(colour = kind == KINDS["treatment_centre"]),
+        linewidth = 0.7) +
+    geom_text(data = ends, aes(label = paste0(kind, "  ", n)),
+        hjust = 0, nudge_x = 2, size = 3.2, colour = INK) +
+    scale_colour_manual(values = c(`TRUE` = ACCENT, `FALSE` = INK),
+        guide = "none") +
+    scale_x_outbreak() +
+    coord_cartesian(clip = "off") +
+    labs(x = NULL, y = "Sites open (cumulative)") +
+    theme(plot.margin = margin(5, 150, 5, 5))
+```
+
+## Beds and patients
+
+```{r fig-beds}
+#| fig-cap: "National active bed capacity and patients in isolation. WHO AFRO figures are weekly; INSP figures are daily and stop in early August, when the bed tables leave the situation reports. Lines break where no figure was published for more than ten days."
+#| fig-alt: "Line chart of bed capacity rising from about 650 in late June to about 1500 in September, with patients in isolation between 700 and 900."
+beds_series <- drc[level == "national" &
+    indicator %in% c("beds_capacity", "patients_in_isolation") &
+    period == "point"]
+beds_series[, what := fifelse(indicator == "beds_capacity",
+    "Active beds", "Patients in isolation")]
+beds_series[, seg := gap_group(as_of_date), by = .(source, what)]
+ggplot(beds_series, aes(as_of_date, value, colour = source,
+    linetype = what, group = interaction(source, what, seg))) +
+    geom_line(linewidth = 0.6) +
+    geom_point(size = 1) +
+    scale_colour_manual(values = SOURCE_COLOURS, labels = SOURCE_LABELS) +
+    scale_y_continuous(labels = scales::label_comma(),
+        limits = c(0, NA), expand = expansion(mult = c(0, 0.05))) +
+    scale_x_outbreak() +
+    labs(x = NULL, y = NULL)
+```
+
+```{r fig-occupancy}
+#| fig-cap: "Bed occupancy by province, where a report gives it. Above the line at 100% a province held more patients than it had beds. Figures are as printed, not recomputed."
+#| fig-alt: "Small multiple dot-and-line charts of bed occupancy by province. Nord-Kivu is repeatedly above 100 percent; Ituri falls from about 90 to about 45 percent."
+#| fig-height: 5
+occ <- drc[indicator == "bed_occupancy_pct" &
+    level %in% c("province", "national")]
+occ[, panel := fifelse(level == "national", "All provinces", place)]
+occ[, panel := factor(panel, levels = c("All provinces", PROVINCES))]
+occ[, seg := gap_group(as_of_date), by = .(source, panel)]
+ggplot(occ[!is.na(panel)], aes(as_of_date, value, colour = source,
+    group = interaction(source, seg))) +
+    geom_hline(yintercept = 100, colour = GREY, linewidth = 0.3) +
+    geom_line(linewidth = 0.5) +
+    geom_point(size = 1.1) +
+    facet_wrap(~panel, ncol = 3, drop = TRUE) +
+    scale_colour_manual(values = SOURCE_COLOURS, labels = SOURCE_LABELS) +
+    scale_y_continuous(limits = c(0, NA),
+        expand = expansion(mult = c(0, 0.05))) +
+    scale_x_outbreak() +
+    labs(x = NULL, y = "Occupancy (%)")
+```
+
+Nord-Kivu held more patients than it had beds for most of July, in both the
+INSP daily tables and the WHO AFRO weekly reports. Neither says how: extra
+beds not yet counted, patients waiting in transit, or a bed count that lagged.
+
+<!-- UNCERTAIN: what occupancy above 100% counts. See DEVLOG item 5. -->
+
+## Treatment centres
+
+```{r tab-cte}
+cte <- opening[site_kind == "treatment_centre"]
+cte <- merge(cte, facilities[, .(facility_id, status_latest_date)],
+    by = "facility_id", all.x = TRUE)
+cte[, status := fcase(
+    status_latest == "operating", "Holding patients",
+    status_latest == "strained", "Strained",
+    status_latest == "incident", "Incident reported",
+    status_latest == "under_construction", "Being built",
+    status_latest == "planned", "Planned",
+    status_latest == "opened", "Opened",
+    status_latest == "closed", "Closed",
+    status_latest == "expanded", "Expanded",
+    default = "Named only")]
+setorder(cte, province, health_zone, facility_name)
+html_table(cte[, .(
+    Province = fifelse(province == "", "not stated", province),
+    `Health zone` = health_zone,
+    Centre = facility_name,
+    `Open by` = fifelse(is.na(opened_by), "", fmt_date(opened_by)),
+    `Latest status` = fifelse(is.na(status_latest_date), status,
+        paste0(status, ", ", fmt_date(status_latest_date))),
+    Beds = fifelse(is.na(beds_latest), "", as.character(beds_latest))
+)], align = c("l", "l", "l", "r", "l", "r"))
+```
+
+"Open by" is the date of the first report showing the centre open or holding
+patients. Beds are the latest count a report gives for that centre; most
+centres never have one, because the facility bed table stops appearing after
+SitRep 090.
+
+## Where this comes from
+
+The facility list and opening dates are read from the Institut National de
+Santé Publique (INSP) situation reports. The bed figures after early August
+come from the World Health Organization Regional Office for Africa (WHO AFRO)
+weekly situation reports, because the INSP bed tables stop. Every row in the
+underlying data carries the sentence it came from.
+
+Data: [epiforecasts/bvd-capacity](https://github.com/epiforecasts/bvd-capacity).
+Please cite the INSP and WHO reports for any figure you use.

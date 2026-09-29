@@ -265,6 +265,19 @@ filled_prov <- ev[!nzchar(province) & nzchar(zone_grid3) &
 ev[!nzchar(province) & nzchar(zone_grid3),
     province := zone_province(zone_grid3, base_key)]
 ev[, zone_grid3 := NULL]
+
+#' A report that names its health zone but not its province gets the
+#' province GRID3 puts that zone in, where no other province has a zone of
+#' that name. The zone is matched folded, so `NIA-NIA` finds `Nia-Nia`.
+g3_zones <- unique(grid3_places(base_key)$health_zone)
+ev[, zone_named := g3_zones[match(base_key(health_zone), base_key(g3_zones))]]
+ev[, zone_prov := ""]
+ev[!nzchar(province) & !is.na(zone_named),
+    zone_prov := zone_province(zone_named, base_key)]
+filled_prov <- filled_prov + ev[nzchar(zone_prov), .N]
+ev[nzchar(zone_prov), province := zone_prov]
+ev[, c("zone_named", "zone_prov") := NULL]
+
 if (filled_zone || filled_prov) {
     message("GRID3 filled ", filled_zone, " missing health zones and ",
         filled_prov, " missing provinces.")

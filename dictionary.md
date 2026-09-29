@@ -391,6 +391,33 @@ states a national total, so `afro_value` and `ratio` are empty for that row,
 which is itself the finding: the facility columns in that period are not a
 complete register the report itself totals.
 
+### checks/compare_bos_province_care.csv
+
+This repository's province-level INSP capacity rows against
+BVDOutbreakSize's independent province-care reads (PR #969), written by
+`R/33_compare_bos.R`. One row a (`sitrep`, `report_date`, `province`,
+`quantity`): `ours`, `bos_scan` and `bos_read` (BVDOutbreakSize's
+deterministic scan and its independent blind read of the same tables),
+`agree_scan` and `agree_read` (`NA` where that read has no figure for the
+cell, not only where it disagrees), and `status`: `all_agree`,
+`ours_differs`, `bos_reads_differ` (BVDOutbreakSize's own two reads
+disagree with each other), `only_ours` or `only_bos`. `bos_commit` carries
+the BVDOutbreakSize commit the comparison ran against.
+
+Six quantities are compared directly: `patients_in_isolation` /
+`patients_isolated`, `beds_capacity` / `beds`, `bed_occupancy_pct` /
+`occupancy_rate_pct` (0.5 percentage point tolerance, otherwise exact),
+`admissions` (24h only; the `cumulative` reading from SitRep 064 is
+dropped first) / `admissions_24h`, `discharges_recovered` / `recovered_24h`,
+and `deaths_in_facility` / `deaths_incare_24h`. `beds_occupied` and
+`escapes` appear as `only_ours`: BVDOutbreakSize has no equivalent, and
+`beds_occupied` ("Patients présents au lit (J-1)", dated to the day before
+the report) is a narrower count than `patients_in_isolation`, not the same
+figure under another name. `discharges_24h` appears as `only_bos`:
+BVDOutbreakSize's total across every exit category, which this repository
+has no single vocabulary indicator for.
+
+
 ## registry/
 ### registry/decisions.csv
 

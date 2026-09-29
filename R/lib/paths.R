@@ -118,6 +118,20 @@ insp_capacity_skipped_path <- function() checks_dir("insp_capacity_skipped.csv")
 #' `R/32_capacity_insp.R`.
 capacity_insp_vs_afro_path <- function() checks_dir("capacity_insp_vs_afro.csv")
 
+#' Where a BVDOutbreakSize checkout lives. `R/33_compare_bos.R` reads that
+#' repository's province-care CSVs by path, exactly as this file reads
+#' bvd-sitreps: no fetch, no network, `BVD_OUTBREAKSIZE` points at a
+#' checkout, and the default is a sibling clone.
+bos_root <- function() {
+    Sys.getenv("BVD_OUTBREAKSIZE",
+        unset = file.path(dirname(here::here()), "BVDOutbreakSize"))
+}
+
+#' This repository's INSP province capacity rows against BVDOutbreakSize's
+#' independent province-care reads (PR #969), one row a
+#' (sitrep, report_date, province, quantity). Written by `R/33_compare_bos.R`.
+compare_bos_path <- function() checks_dir("compare_bos_province_care.csv")
+
 ensure_dirs <- function() {
     for (d in c(cache_dir(), dirname(registry_path()), checks_dir(),
         runs_dir("logs"))) {
