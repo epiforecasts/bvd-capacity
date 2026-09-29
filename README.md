@@ -224,6 +224,7 @@ Rscript R/22_external_match.R      # no model calls
 Rscript R/23_registers_suggest.R   # no model calls; GRID3 and OSM
 Rscript R/30_capacity.R            # model calls; writes who_afro rows
 Rscript R/32_capacity_insp.R       # no model calls; writes insp rows, needs a bvd-sitreps checkout
+Rscript R/33_compare_bos.R         # no model calls; needs a BVDOutbreakSize checkout
 Rscript R/31_capacity_preferred.R  # no model calls; adds the preferred column
 ```
 
