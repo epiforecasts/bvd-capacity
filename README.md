@@ -11,10 +11,11 @@ This repository holds a dataset of when each Ebola treatment, transit and isolat
 > one site into two. Ten naming questions are open in
 > [`checks/decisions/`](checks/decisions) and recorded in
 > [issue #1](https://github.com/epiforecasts/bvd-capacity/issues/1), and 27 of
-> the 213 capacity figures are marked `ambiguous_key`: the document states
-> more than one figure for the same thing. A `preferred` column says which
-> one a series should read; of the 13 conflicts behind it, 10 are settled by
-> a mechanical rule, one by reading the quotes, and two are still unsettled.
+> the 2,280 capacity figures (all from WHO AFRO; none of the INSP figures
+> conflict) are marked `ambiguous_key`: the document states more than one
+> figure for the same thing. A `preferred` column says which one a series
+> should read; of the 13 conflicts behind it, 10 are settled by a mechanical
+> rule, one by reading the quotes, and two are still unsettled.
 > Cite a version, read the quote on any row you rely on, and expect ids to
 > be merged as decisions land.
 
@@ -45,12 +46,22 @@ opening date as stated, first seen in service, latest status, latest bed
 count.
 
 `data/capacity_indicators.csv` is the system layer: how many beds the
-response had and how full they were, week by week, with a fixed indicator
-vocabulary and one row a figure. It exists because the INSP bed tables stop:
-`patients au lit (j-1)` runs to 2 August and `taux d'occupation global` to 11
-July, while the outbreak runs into late September. WHO AFRO's weekly reports
-carry bed capacity and occupancy through 20 September, so the series
-continues where the national tables stop.
+response had and how full they were, day by day and week by week, with a
+fixed indicator vocabulary and one row a figure, from two sources. The INSP
+bed tables (`source = insp`) give facility, health zone, province and
+national figures from 19 May to 2 August, read from the tables directly with
+no model call: `patients au lit (j-1)` runs to 2 August and `taux
+d'occupation global` to 11 July. WHO AFRO's weekly reports (`source =
+who_afro`) carry national and provincial bed capacity and occupancy from 28
+June through 20 September, one model call a document, so the series
+continues where the national tables stop; the two overlap for about six
+weeks, which is the one place they can be checked against each other.
+`checks/capacity_insp_vs_afro.csv` holds that comparison, and
+`checks/insp_capacity_skipped.csv` lists every INSP table row the reading
+could not use and why: a duplicate column name from extraction, a subtotal
+across a cluster of facilities, a misaligned column, or a label outside the
+fixed vocabulary, mapped by hand in
+[`registry/insp_capacity_labels.csv`](registry/insp_capacity_labels.csv).
 
 A document sometimes gives two figures for the same indicator, level, place
 and date, and both stay in the table: the unchosen figure is evidence, not an
@@ -211,11 +222,14 @@ Rscript R/09_apply_decisions.R     # the decisions made, into the name vocabular
 Rscript R/21_external_extract.R    # model calls; reads bvd-sitreps' WHO corpus
 Rscript R/22_external_match.R      # no model calls
 Rscript R/23_registers_suggest.R   # no model calls; GRID3 and OSM
-Rscript R/30_capacity.R            # model calls
+Rscript R/30_capacity.R            # model calls; writes who_afro rows
+Rscript R/32_capacity_insp.R       # no model calls; writes insp rows, needs a bvd-sitreps checkout
 Rscript R/31_capacity_preferred.R  # no model calls; adds the preferred column
 ```
 
-`R/31_capacity_preferred.R` needs no cache and no corpus checkout: it reads
+`R/30_capacity.R` and `R/32_capacity_insp.R` can run in either order;
+`R/31_capacity_preferred.R` runs last, over the rows both have written. It
+needs no cache and no corpus checkout: it reads
 only `data/capacity_indicators.csv` and `registry/capacity_decisions.csv`.
 
 `R/01_facilities.R` expects a bvd-sitreps checkout beside this one, or

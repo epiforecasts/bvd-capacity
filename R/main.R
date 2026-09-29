@@ -17,8 +17,9 @@
 #'   external  model calls. 21_external_extract, 22_external_match,
 #'             23_registers_suggest. Needs bvd-sitreps' R/06-fetch-who.R to
 #'             have already fetched the WHO documents in that repository.
-#'   capacity  model calls. 30_capacity, then R/31_capacity_preferred.R if
-#'             that file exists (it is being added on another branch).
+#'   capacity  model calls. 30_capacity, 32_capacity_insp (needs a
+#'             bvd-sitreps checkout), then R/31_capacity_preferred.R if
+#'             that file exists.
 #'   report    re-execute each page in reports/ against the current data,
 #'             then assemble the site
 #'
@@ -61,7 +62,8 @@ stages <- list(
         "23_registers_suggest.R"
     ),
     capacity = c(
-        "30_capacity.R"
+        "30_capacity.R",
+        "32_capacity_insp.R"
     )
     # "report" is handled separately below: it runs quarto, not an Rscript step.
 )

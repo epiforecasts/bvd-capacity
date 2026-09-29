@@ -26,6 +26,18 @@ suppressMessages({
 })
 source(here::here("R", "lib", "paths.R"))
 source(here::here("R", "lib", "corpus.R"))
+source(here::here("R", "lib", "capacity_preferred.R"))
+
+#' The fixed capacity vocabulary, mirrored from `R/30_capacity.R`: both
+#' sources, WHO AFRO and INSP, write into `data/capacity_indicators.csv`
+#' under these same values.
+INDICATORS <- c("beds_capacity", "beds_occupied", "bed_occupancy_pct",
+    "patients_in_isolation", "admissions", "discharges_recovered",
+    "deaths_in_facility", "escapes", "facilities_operational",
+    "laboratories_testing")
+LEVELS <- c("national", "province", "health_zone", "facility")
+UNITS <- c("beds", "patients", "percent", "facilities", "laboratories")
+PERIODS <- c("point", "24h", "7d", "cumulative")
 
 EVENTS <- c("planned", "under_construction", "opened", "operating", "expanded",
     "strained", "incident", "closed", "mention_only")
@@ -239,7 +251,7 @@ for (col in pairs) {
 #' rather than record it. Both are failures; neither is about whether the
 #' model read a report well.
 if (file.exists(capacity_path())) {
-    capacity <- fread(capacity_path(), colClasses = "character")
+    capacity <- read_capacity_csv(capacity_path())
     if ("preferred" %in% names(capacity)) {
         key_cols <- c("source", "doc_id", "as_of_date", "indicator", "level",
             "country", "place", "period", "unit")
@@ -276,6 +288,92 @@ if (file.exists(capacity_path())) {
     } else {
         message("\ncapacity_indicators.csv has no preferred column yet; ",
             "run R/31_capacity_preferred.R.")
+    }
+
+    #' `source == "insp"` rows are read from a table cell, not a model call,
+    #' but the same three things can still go wrong: a value outside the
+    #' fixed vocabulary, a value that could not be a real count or rate, and
+    #' an `evidence_quote` whose data line is not actually in the file `url`
+    #' names. The last of these needs a bvd-sitreps checkout; where one is
+    #' not on hand, that sub-check is skipped and says so, rather than
+    #' failing the whole build over a corpus that was never fetched here.
+    insp <- capacity[source == "insp"]
+    if (nrow(insp)) {
+        insp[, value := as.numeric(value)]
+
+        bad_indicator <- insp[!indicator %in% INDICATORS]
+        if (nrow(bad_indicator)) {
+            fail(nrow(bad_indicator), " insp capacity rows with an indicator ",
+                "outside the fixed vocabulary")
+            show(bad_indicator[, .(doc_id, indicator, level, value)])
+        }
+
+        bad_level <- insp[!level %in% LEVELS]
+        if (nrow(bad_level)) {
+            fail(nrow(bad_level), " insp capacity rows with a level outside ",
+                "national, province, health_zone, facility")
+            show(bad_level[, .(doc_id, indicator, level, value)])
+        }
+
+        bad_unit <- insp[!unit %in% UNITS]
+        if (nrow(bad_unit)) {
+            fail(nrow(bad_unit), " insp capacity rows with a unit outside ",
+                "the fixed vocabulary")
+            show(bad_unit[, .(doc_id, indicator, unit, value)])
+        }
+
+        bad_period <- insp[!period %in% PERIODS]
+        if (nrow(bad_period)) {
+            fail(nrow(bad_period), " insp capacity rows with a period outside ",
+                "point, 24h, 7d, cumulative")
+            show(bad_period[, .(doc_id, indicator, period, value)])
+        }
+
+        negative <- insp[!is.na(value) & value < 0]
+        if (nrow(negative)) {
+            fail(nrow(negative), " insp capacity rows with a negative value")
+            show(negative[, .(doc_id, indicator, level, value)])
+        }
+
+        bad_occupancy <- insp[indicator == "bed_occupancy_pct" &
+            !is.na(value) & (value < 0 | value > 300)]
+        if (nrow(bad_occupancy)) {
+            fail(nrow(bad_occupancy), " insp bed_occupancy_pct rows outside 0-300")
+            show(bad_occupancy[, .(doc_id, level, place, value)])
+        }
+
+        sitreps_root_dir <- sitreps_root()
+        if (!dir.exists(sitreps_root_dir)) {
+            message("\nNo bvd-sitreps checkout at ", sitreps_root_dir,
+                " (set BVD_SITREPS); skipping the insp evidence_quote line check.")
+        } else {
+            #' Only the last line of the quote needs to be a literal line of
+            #' the file: a header-embedded bed count's quote is one line
+            #' (the header itself), and a row value's quote is two (header,
+            #' then data line). Either way the line the value came from must
+            #' be checkable as a span of the file.
+            insp[, quote_line := vapply(strsplit(evidence_quote, "\n", fixed = TRUE),
+                function(x) x[length(x)], character(1))]
+            by_url <- unique(insp[, .(url)])
+            by_url[, path := file.path(sitreps_root_dir, url)]
+            missing_file <- by_url[!file.exists(path)]
+            if (nrow(missing_file)) {
+                fail(nrow(missing_file), " insp capacity urls with no file at ",
+                    "that path under ", sitreps_root_dir)
+                show(missing_file)
+            }
+            found_lines <- by_url[file.exists(path), .(url,
+                lines = list(readLines(path, warn = FALSE))), by = url]
+            insp2 <- merge(insp, found_lines[, .(url, lines)], by = "url")
+            bad_quote <- insp2[!vapply(seq_len(.N), function(i)
+                quote_line[i] %in% lines[[i]], logical(1))]
+            if (nrow(bad_quote)) {
+                fail(nrow(bad_quote), " insp capacity rows whose evidence_quote ",
+                    "data line is not a line of the file named in url")
+                show(bad_quote[, .(doc_id, indicator, url, quote_line)])
+            }
+        }
+        message("\nInsp capacity rows ", nrow(insp), ".")
     }
 }
 

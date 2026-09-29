@@ -209,10 +209,11 @@ health zone) and from free text. `topic_suggested` is this script's guess;
 
 ### data/capacity_indicators.csv
 
-One row a capacity figure, 213 of them, written by `R/30_capacity.R` from the
-WHO AFRO weekly reports. The vocabulary is fixed in the script so that a later
-pass over the INSP bed tables writes into this same table with a different
-`source`.
+One row a capacity figure, 2,280 of them, from two sources under one fixed
+vocabulary: 213 `who_afro` rows written by `R/30_capacity.R` from the WHO
+AFRO weekly reports, one model call a document, and 2,067 `insp` rows
+written by `R/32_capacity_insp.R` from the INSP bed tables, no model call,
+by the label mapping in `registry/insp_capacity_labels.csv`.
 
 | column | meaning |
 |---|---|
@@ -225,9 +226,30 @@ pass over the INSP bed tables writes into this same table with a different
 | `value`, `unit`, `period` | the figure, what it counts, and whether it is a stock or a flow |
 | `ambiguous_key` | TRUE where the document states more than one figure for the same indicator, level, country, place, period and unit, and `as_of_date` |
 | `preferred` | TRUE for the figure a series should read; see below |
-| `confidence`, `evidence_quote` | the model's own hedge, and the sentence the figure came from |
+| `confidence`, `evidence_quote` | the model's own hedge (`who_afro`) or a flag for a value that needed coercion (`insp`, e.g. `28 lits`, `93,9%`), and the sentence or table line the figure came from |
 
-`ambiguous_key` marks 27 of the 213. It used to mark 52, keyed without
+For `source == "insp"`, `url` is the INSP table's path inside a bvd-sitreps
+checkout (`data/csv/060_table_06_tableau_6_occupation_des_structures_de_s.csv`),
+and `evidence_quote` is that table's header line and the data line the value
+came from, joined by a newline, both copied verbatim from the CSV so that
+`R/03_checks.R` can find the data line as a literal line of the file. Where
+the bed count sits in the column header itself (`HGR BUNIA (12 Lits: 08 S et
+03 C)`) or in an unlabelled first data row (SitReps 006, 006_v2), the quote
+is the header line alone.
+
+`fread()` cannot correctly round-trip an `evidence_quote` that mixes an
+embedded newline with more than one quoted segment, which many INSP data
+lines are (French comma-decimal cells like `"93,9%"` are quoted in the
+source CSV): each read through `fread()` doubles the escaping further.
+`read_capacity_csv()` in `R/lib/capacity_preferred.R` reads this file with
+base R's `read.csv()` instead, which parses the same file correctly;
+`R/31_capacity_preferred.R` and `R/03_checks.R` both use it rather than
+`fread()` directly. Writing is unaffected: `fwrite()` already writes
+standard, correctly escaped CSV, and the corruption was only ever in reading
+it back.
+
+`ambiguous_key` marks 27 of the 213 `who_afro` rows (none of the `insp`
+rows). It used to mark 52, keyed without
 `country` and `unit`: a national total for Uganda then collided with the
 national total for the Democratic Republic of the Congo under one key (48
 figures across afro-03 to afro-10), which is not a disagreement about one
@@ -252,7 +274,10 @@ are left unsettled (`capacity-afro04-2026-06-07-escapes` and
 two different quantities or give no total to choose between; every row of
 those two groups has `preferred = FALSE`. `checks/capacity_conflicts.csv`
 lists every row that ever shared a key, its value, whether it is preferred,
-and which rule or decision chose it.
+and which rule or decision chose it. Merging the INSP rows in changed
+neither the count nor the shape of the conflicts: no INSP row shares a key
+with a WHO AFRO row or with another INSP row, so `ambiguous_key` still marks
+the same 27 rows across 13 groups it did before.
 
 ### data/reference
 #### data/reference/osm_places.csv
@@ -335,6 +360,37 @@ value, whether it is `preferred`, and `rule`, which names the rule
 `rule3_headline_over_narrative`) or decision (`decision:<decision_id>`) that
 chose it, or `unsettled` (or `unsettled:<decision_id>`) where none did.
 
+### checks/insp_capacity_skipped.csv
+
+Every INSP table row `R/32_capacity_insp.R` could not use, one row a
+skipped cell, with `url`, `doc_id`, `row_label`, `place_raw` (the column),
+`value_raw` and `reason`. Reasons: a duplicate column name from extraction,
+which loses which of two similarly-named facilities a count belongs to
+(SitRep 007 alone, 107 cells); a subtotal across a cluster of facilities or
+a column mixing a total with an occupancy rate, neither a formal place
+level (98 cells); a trailing column the extraction misaligned, whose
+contents do not line up with a place (SitRep 080's `col`, 5 cells); an
+unmapped label, not in `registry/insp_capacity_labels.csv`; or a value that
+is not a number once `ND`, a blank cell and `-` have already been read as
+not reported rather than as an error.
+
+### checks/capacity_insp_vs_afro.csv
+
+Where INSP and WHO AFRO both give a national figure for the same indicator,
+country, unit and kind of period (both `24h`, both `point`, or both
+`cumulative`) within three days of each other, written by
+`R/32_capacity_insp.R`: `insp_date`, `afro_date`, `insp_value`, `afro_value`,
+`diff` and `ratio`. AFRO reports weekly, so an exact date match is not
+expected; a `24h` INSP figure is never compared with a `7d` or `cumulative`
+AFRO figure, since the two are not disagreeing about the same quantity.
+Where the earliest tables give a bed count per facility (SitReps 006,
+006_v2, 013, 014), the same file also carries the sum of those facility
+counts against the national total the same report gives, as `indicator`
+`beds_capacity (facility sum vs national)`; none of those four reports
+states a national total, so `afro_value` and `ratio` are empty for that row,
+which is itself the finding: the facility columns in that period are not a
+complete register the report itself totals.
+
 ## registry/
 ### registry/decisions.csv
 
@@ -392,6 +448,31 @@ conflict groups. The rest are `claude-code`'s: one settled by reading the
 quotes, `preferred_value` filled in; two left `unsettled`, `preferred_value`
 empty, because the quotes describe two different quantities, or give no
 total to choose between.
+
+### registry/insp_capacity_labels.csv
+
+The closed set of row labels the INSP bed tables use, mapped by hand onto
+the fixed capacity vocabulary, read by `R/32_capacity_insp.R`.
+
+| column | meaning |
+|---|---|
+| `label_key` | the row label as the table prints it, exactly |
+| `indicator` | one of the fixed vocabulary's ten values, or empty where the label does not map |
+| `unit`, `period` | as in `capacity_indicators.csv`; empty where `indicator` is |
+| `note` | the reasoning behind the mapping, or why the label was left out |
+
+A label not in this file at all is not guessed at: the row is skipped and
+logged to `checks/insp_capacity_skipped.csv` with reason `unmapped label`.
+Two mappings are handled in code rather than by a row here, and are
+documented as comments in `R/32_capacity_insp.R`: a bed count folded into a
+facility column's header (`HGR BUNIA (12 Lits: 08 S et 03 C)`), and the
+unlabelled first data row SitReps 006 and 006_v2 carry, holding a bed count
+per facility column. One further label, the bare `Total admissions`, maps
+by this file to period `24h`, its meaning where it is the only admissions
+total in the table (SitRep 018); `R/32_capacity_insp.R` overrides that to
+`cumulative` wherever the same table also carries an explicit
+`Total admissions (24 h)` row, which is every table from SitRep 064, since
+the bare row there is roughly seven times the size of the 24h row.
 
 ### registry/facility_aliases.csv
 

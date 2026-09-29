@@ -1,0 +1,211 @@
+url,doc_id,row_label,place_raw,value_raw,reason
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,"",BUNIA TOTAL,28 lits,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Report,BUNIA TOTAL,28,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Nouvelles Admissions PPL,BUNIA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Nouvelles Admissions Autres,BUNIA TOTAL,12,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Nouvelles Admissions Total,BUNIA TOTAL,12,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Total en Isolement,BUNIA TOTAL,40,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Guéris,BUNIA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Décédés,BUNIA TOTAL,3,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Non Cas,BUNIA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Evadés,BUNIA TOTAL,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Transférés à HGR,BUNIA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,"",RWAMPARA TOTAL,126 Lits,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Report,RWAMPARA TOTAL,37,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Nouvelles Admissions PPL,RWAMPARA TOTAL,5,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Nouvelles Admissions Autres,RWAMPARA TOTAL,12,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Nouvelles Admissions Total,RWAMPARA TOTAL,17,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Total en Isolement,RWAMPARA TOTAL,54,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Guéris,RWAMPARA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Décédés,RWAMPARA TOTAL,2,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Non Cas,RWAMPARA TOTAL,13,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Evadés,RWAMPARA TOTAL,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006,Sorties Transférés à HGR,RWAMPARA TOTAL,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,"",BUNIA TOTAL,28 lits,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Report,BUNIA TOTAL,28,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Nouvelles Admissions PPL,BUNIA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Nouvelles Admissions Autres,BUNIA TOTAL,12,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Nouvelles Admissions Total,BUNIA TOTAL,12,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Total en Isolement,BUNIA TOTAL,40,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Guéris,BUNIA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Décédés,BUNIA TOTAL,3,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Non Cas,BUNIA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Evadés,BUNIA TOTAL,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Transférés à HGR,BUNIA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,"",RWAMPARA TOTAL,126 Lits,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Report,RWAMPARA TOTAL,37,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Nouvelles Admissions PPL,RWAMPARA TOTAL,5,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Nouvelles Admissions Autres,RWAMPARA TOTAL,12,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Nouvelles Admissions Total,RWAMPARA TOTAL,17,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Total en Isolement,RWAMPARA TOTAL,54,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Guéris,RWAMPARA TOTAL,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Décédés,RWAMPARA TOTAL,2,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Non Cas,RWAMPARA TOTAL,13,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Evadés,RWAMPARA TOTAL,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/006_v2_table_07_tableau_vi_mouvement_des_malades_dans_le.csv,006_v2,Sorties Transférés à HGR,RWAMPARA TOTAL,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Report,RWAMPARA,21,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions PPL,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions Autres,RWAMPARA,2,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions Total,RWAMPARA,2,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Total en Isolement,RWAMPARA,23,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Guéris,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Décédés,RWAMPARA,4,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Cumul de décès,RWAMPARA,10,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Non Cas,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Evadés,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Transférés à HGR,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Suspects,RWAMPARA,21,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont sévères/critiques,RWAMPARA,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes enceintes,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes allaitantes,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Suspect Enfant < 5 ans,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement 5 à 14 ans,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Total cas confirmés,RWAMPARA,2,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Nouveaux cas Confirmés,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont AC Confirmés,RWAMPARA,2,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont sévères/critiques,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont avec comorbidités,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes enceintes,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes allaitantes,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Suspect Enfant < 5 ans,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement 5 à 14 ans,RWAMPARA,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Report,RWAMPARA_1,15,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions PPL,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions Autres,RWAMPARA_1,4,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions Total,RWAMPARA_1,4,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Total en Isolement,RWAMPARA_1,19,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Guéris,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Décédés,RWAMPARA_1,4,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Cumul de décès,RWAMPARA_1,15,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Non Cas,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Evadés,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Transférés à HGR,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Suspects,RWAMPARA_1,17,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont prélevés,RWAMPARA_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont sévères/critiques,RWAMPARA_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes enceintes,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes allaitantes,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Suspect Enfant < 5 ans,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement 5 à 14 ans,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Total cas confirmés,RWAMPARA_1,2,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Nouveaux cas Confirmés,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont AC Confirmés,RWAMPARA_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont sévères/critiques,RWAMPARA_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont avec comorbidités,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes enceintes,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes allaitantes,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Suspect Enfant < 5 ans,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement 5 à 14 ans,RWAMPARA_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Report,Mongbwalu,35,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions PPL,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions Autres,Mongbwalu,6,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions Total,Mongbwalu,6,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Total en Isolement,Mongbwalu,46,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Guéris,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Décédés,Mongbwalu,10,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Cumul de décès,Mongbwalu,25,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Non Cas,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Evadés,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Transférés à HGR,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Suspects,Mongbwalu,38,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont prélevés,Mongbwalu,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont sévères/critiques,Mongbwalu,2,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes enceintes,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes allaitantes,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Suspect Enfant < 5 ans,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement 5 à 14 ans,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Total cas confirmés,Mongbwalu,4,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Nouveaux cas Confirmés,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont AC Confirmés,Mongbwalu,5,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont sévères/critiques,Mongbwalu,2,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont avec comorbidités,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes enceintes,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes allaitantes,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Suspect Enfant < 5 ans,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement 5 à 14 ans,Mongbwalu,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Report,Mongbwalu_1,27,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions PPL,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions Autres,Mongbwalu_1,9,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Nouvelles Admissions Total,Mongbwalu_1,9,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Total en Isolement,Mongbwalu_1,36,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Guéris,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Décédés,Mongbwalu_1,5,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Cumul de décès,Mongbwalu_1,44,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Non Cas,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Evadés,Mongbwalu_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Sorties Transférés à HGR,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Suspects,Mongbwalu_1,35,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont prélevés,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont sévères/critiques,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes enceintes,Mongbwalu_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes allaitantes,Mongbwalu_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Suspect Enfant < 5 ans,Mongbwalu_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement 5 à 14 ans,Mongbwalu_1,2,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Total cas confirmés,Mongbwalu_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Nouveaux cas Confirmés,Mongbwalu_1,1,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont AC Confirmés,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont sévères/critiques,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont avec comorbidités,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes enceintes,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Femmes allaitantes,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement Dont Suspect Enfant < 5 ans,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/007_table_10_tableau_vi_mouvement_des_malades_dans_le.csv,007,Malades en isolement 5 à 14 ans,Mongbwalu_1,0,duplicate column name from extraction; source facility identity lost
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Report (Nbre de malades au lit à la fin de journeée précédente),SOUS TOTAL BUNIA,44,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Nouvelles Admissions du jour PPL,SOUS TOTAL BUNIA,3,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Nouvelles Admissions du jour Autres,SOUS TOTAL BUNIA,6,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Nouvelles Admissions du jour Total admissions du jour,SOUS TOTAL BUNIA,9,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Effectif total en isolement,SOUS TOTAL BUNIA,53,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Cumul de malades admis en isolement,SOUS TOTAL BUNIA,118,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Guéris,SOUS TOTAL BUNIA,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Décédés,SOUS TOTAL BUNIA,7,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Cumul des décès,SOUS TOTAL BUNIA,64,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Non Cas,SOUS TOTAL BUNIA,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Evadés,SOUS TOTAL BUNIA,4,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Transférés à HGR,SOUS TOTAL BUNIA,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Report (Nbre de malades au lit à la fin de journeée précédente),SOUS TOTAL RWAMPARA,19,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Nouvelles Admissions du jour PPL,SOUS TOTAL RWAMPARA,2,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Nouvelles Admissions du jour Autres,SOUS TOTAL RWAMPARA,4,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Nouvelles Admissions du jour Total admissions du jour,SOUS TOTAL RWAMPARA,6,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Effectif total en isolement,SOUS TOTAL RWAMPARA,25,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Cumul de malades admis en isolement,SOUS TOTAL RWAMPARA,54,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Guéris,SOUS TOTAL RWAMPARA,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Décédés,SOUS TOTAL RWAMPARA,2,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Cumul des décès,SOUS TOTAL RWAMPARA,36,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Non Cas,SOUS TOTAL RWAMPARA,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Evadés,SOUS TOTAL RWAMPARA,2,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/010_table_05_tableau_vi_mouvement_des_malades_dans_le.csv,010,Sorties Transférés à HGR,SOUS TOTAL RWAMPARA,2,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Report,TOTAL et Tx d'occup,101,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Nouvelles PPL,TOTAL et Tx d'occup,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Admissions Autres,TOTAL et Tx d'occup,13,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Sorties Guéris,TOTAL et Tx d'occup,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Sorties Décédés,TOTAL et Tx d'occup,6,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Sorties Non Cas,TOTAL et Tx d'occup,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Sorties Evadés,TOTAL et Tx d'occup,4,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Sorties Transférés,TOTAL et Tx d'occup,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Malades Hospitalisés Total,TOTAL et Tx d'occup,103,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Malades Hospitalisés Nvx Cas Confirmés,TOTAL et Tx d'occup,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Malades Hospitalisés Anciens Cas Confirmés,TOTAL et Tx d'occup,12,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Malades Hospitalisés Suspects,TOTAL et Tx d'occup,92,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Malades Hospitalisés Suspect < 5 ans,TOTAL et Tx d'occup,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Taux d’occupation de lit Suspects,TOTAL et Tx d'occup,"70,1%","subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/013_table_04_tableau_v_mouvement_des_malades_dans_les.csv,013,Taux d’occupation de lit Confirmés,TOTAL et Tx d'occup,"8,7%","subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Report,TOTAL et Tx d'occup,101,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Nouvelles PPL,TOTAL et Tx d'occup,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Admissions Autres,TOTAL et Tx d'occup,13,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Sorties Guéris,TOTAL et Tx d'occup,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Sorties Décédés,TOTAL et Tx d'occup,6,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Sorties Non Cas,TOTAL et Tx d'occup,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Sorties Evadés,TOTAL et Tx d'occup,4,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Sorties Transférés,TOTAL et Tx d'occup,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Malades Hospitalisés Total,TOTAL et Tx d'occup,103,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Malades Hospitalisés Nvx Cas Confirmés,TOTAL et Tx d'occup,1,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Malades Hospitalisés Anciens Cas Confirmés,TOTAL et Tx d'occup,12,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Malades Hospitalisés Suspects,TOTAL et Tx d'occup,92,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Malades Hospitalisés Suspect < 5 ans,TOTAL et Tx d'occup,0,"subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Taux d'occupation de lit Suspects,TOTAL et Tx d'occup,"70,1%","subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/014_table_03_tableau_v_mouvement_des_malades_dans_les.csv,014,Taux d'occupation de lit Confirmés,TOTAL et Tx d'occup,"8,7%","subtotal across a cluster of facilities or a mixed total/occupancy column, not a formal place level"
+data/csv/080_table_06_tableau_6_occupation_des_structures_de_s.csv,080,Sorties — décédés,col,18,trailing column the extraction misaligned; contents do not line up with a place
+data/csv/080_table_06_tableau_6_occupation_des_structures_de_s.csv,080,Sorties — non-cas,col,71,trailing column the extraction misaligned; contents do not line up with a place
+data/csv/080_table_06_tableau_6_occupation_des_structures_de_s.csv,080,Sorties — guéris,col,15,trailing column the extraction misaligned; contents do not line up with a place
+data/csv/080_table_06_tableau_6_occupation_des_structures_de_s.csv,080,Sorties — évadés,col,2,trailing column the extraction misaligned; contents do not line up with a place
+data/csv/080_table_06_tableau_6_occupation_des_structures_de_s.csv,080,Sorties — transférés à l'HGR,col,0,trailing column the extraction misaligned; contents do not line up with a place
