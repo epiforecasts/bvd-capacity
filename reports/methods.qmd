@@ -1,0 +1,338 @@
+---
+title: "Data and methods"
+subtitle: "What the tables hold, how far they can be trusted, and how to use them in a model"
+date: last-modified
+date-format: "D MMMM YYYY"
+---
+
+```{r setup}
+source("_common.R")
+
+decisions <- fread(data_path("..", "registry", "decisions.csv"))
+rejected <- fread(data_path("..", "checks", "rejected_events.csv"))
+conflicts_path <- data_path("..", "checks", "capacity_conflicts.csv")
+conflicts <- if (file.exists(conflicts_path)) fread(conflicts_path) else NULL
+open_sheets <- length(list.files(data_path("..", "checks", "decisions"),
+    pattern = "\\.md$"))
+
+drc <- capacity[country %in% c("Democratic Republic of the Congo", "")]
+has_insp <- drc[source == "insp", .N] > 0
+```
+
+This page is for anyone using the data in an analysis. The
+[overview](index.qmd) is the short version. The column definitions are in
+[`dictionary.md`](https://github.com/epiforecasts/bvd-capacity/blob/main/dictionary.md).
+
+## The tables
+
+```{r tab-files}
+files <- data.table(
+    File = c("facility_events.csv", "facilities.csv", "facility_opening.csv",
+        "capacity_indicators.csv"),
+    `One row is` = c(
+        "one thing one report says about one facility",
+        "one facility, with dates derived from its events",
+        "one facility, with the interval its opening falls in",
+        "one figure: an indicator, a place, a date, a source"),
+    Rows = fmt_n(c(nrow(events), nrow(facilities), nrow(opening),
+        nrow(capacity))),
+    `Use it for` = c(
+        "anything that should respect what was known when",
+        "a register of sites; a join key",
+        "opening dates, with their censoring",
+        "system bed capacity and occupancy over time")
+)
+html_table(files, align = c("l", "l", "r", "l"))
+```
+
+Every row in the first and last tables carries the sentence or table row it
+came from, in `evidence_quote`, and the report it came from. Read the quote
+before relying on a row.
+
+Loading, in R:
+
+```r
+library(data.table)
+base <- "https://raw.githubusercontent.com/epiforecasts/bvd-capacity/main/data/"
+events <- fread(paste0(base, "facility_events.csv"))
+opening <- fread(paste0(base, "facility_opening.csv"))
+capacity <- fread(paste0(base, "capacity_indicators.csv"))
+
+# The national bed series a model should use: DRC only, one figure a key
+beds <- capacity[country == "Democratic Republic of the Congo" &
+    indicator == "beds_capacity" & level == "national" & preferred]
+```
+
+Pin a commit rather than `main` for anything you publish: ids change as
+naming decisions land.
+
+## Reports read
+
+```{r fig-coverage}
+#| fig-cap: "Situation reports read, by week. Seven SitRep numbers were never published; a facility first mentioned just after a gap may have been open earlier."
+#| fig-alt: "Bar chart of reports per week, mostly six or seven a week from late May to mid-September."
+#| fig-height: 2.5
+reps <- unique(events[, .(sitrep, report_date)])
+reps[, week := as.IDate(cut(as.Date(report_date), "week"))]
+ggplot(reps[, .N, week], aes(week, N)) +
+    geom_col(fill = INK, width = 5) +
+    scale_x_outbreak() +
+    labs(x = NULL, y = "Reports")
+```
+
+`r uniqueN(events$sitrep)` reports, SitReps 001 to 122, from
+`r fmt_date(report_first)` to `r fmt_date(report_last)`. Missing numbers: 003,
+029, 043, 045, 063, 075, 076. `006_v2` is a reissue kept as its own report.
+
+## From sentences to facilities
+
+```{r tab-resolution}
+res <- events[, .N, by = name_status][order(-N)]
+res[, what := fcase(
+    name_status == "named", "named, resolved to a facility id",
+    name_status == "ambiguous", "a name that could be several sites",
+    name_status == "unnamed", "a site described but not named")]
+html_table(res[, .(Events = fmt_n(N), `What the report gave` = what)],
+    align = c("r", "l"))
+```
+
+A language model (`gemini-3.1-pro`, low thinking, one call a report) reads
+each report and returns events in a fixed vocabulary, each with a quote. A
+quote that is not a character-for-character span of the report is dropped;
+`r nrow(rejected)` events are dropped this way and listed in
+`checks/rejected_events.csv`. Names are then keyed and matched to a
+hand-maintained vocabulary of spellings.
+
+Code cannot tell a misspelling from a second centre at the same hospital, so
+where two names might be one site they stay apart and are flagged. A person
+settles each question and the answer is recorded with who decided and why.
+
+```{r tab-decisions}
+dec <- decisions[, .N, by = .(verdict, decided_by)]
+dec[, verdict := fcase(verdict == "same", "merged into one facility",
+    verdict == "apart", "kept apart, deliberately",
+    verdict == "unsure", "looked at, left open")]
+html_table(dec[, .(Decision = verdict, `Decided by` = decided_by,
+    Questions = N)], align = c("l", "l", "r"))
+```
+
+`claude-code` decisions were made by the assistant that built the pipeline
+from GRID3 names and spelling evidence, and nobody who knows the sites has
+checked them. `r open_sheets - 1` questions have evidence sheets in
+`checks/decisions/` and are unanswered. Until they are, facility counts are an
+upper bound: the error runs towards counting one site twice, never towards
+merging two.
+
+## Opening dates
+
+The reports almost never give an opening date. An opening is inferred from
+two kinds of report: one showing a site being built or planned (it had not
+opened by then) and one showing it open or holding patients (it had opened
+by then).
+
+```{r tab-censoring}
+cens <- opening[site_kind %in% c(PATIENT_KINDS, "hospital_isolation")]
+cens[, censoring := sub(":.*", "", censoring)]
+tab <- dcast(cens, site_kind ~ censoring, value.var = "facility_id",
+    fun.aggregate = length)
+tab[, site_kind := as.character(kind_label(site_kind))]
+setnames(tab, "site_kind", "Kind of site")
+html_table(tab)
+```
+
+`bounded` is a site seen building and later seen open, so both ends of its
+opening are known. `left censored` is first seen already open: the opening
+is at or before that date and nothing earlier is known. `right censored` was
+seen building and never seen open. For most sites the only honest statement
+is "open by this date".
+
+```{r fig-cte-timeline}
+#| fig-cap: "Treatment centres: the interval each opening falls in. A segment runs from the last report showing the centre not yet open to the first showing it open. A lone dot is left censored: open by then, earlier unknown. An open circle was never seen open, and sits at the last report showing it not yet open."
+#| fig-alt: "Timeline of about seventy treatment centres ordered by opening. Most are single dots; thirteen have short segments of a few days."
+#| fig-height: 9
+tl <- opening[site_kind == "treatment_centre"]
+tl[, y := fifelse(is.na(opened_by), opened_after, opened_by)]
+tl <- tl[!is.na(y)]
+setorder(tl, y)
+id_order <- rev(tl$facility_id)
+ggplot(tl, aes(y = facility_id)) +
+    geom_segment(data = tl[!is.na(opened_after) & !is.na(opened_by)],
+        aes(x = opened_after, xend = opened_by, yend = facility_id),
+        colour = ACCENT, linewidth = 0.8) +
+    geom_point(data = tl[!is.na(opened_by)], aes(x = opened_by),
+        colour = INK, size = 1.2) +
+    geom_point(data = tl[is.na(opened_by)], aes(x = opened_after),
+        shape = 1, colour = GREY, size = 1.4) +
+    scale_y_discrete(limits = id_order) +
+    scale_x_outbreak() +
+    labs(x = NULL, y = NULL) +
+    theme(axis.text.y = element_text(size = 6.5),
+        panel.grid.major.y = element_blank(),
+        panel.grid.major.x = element_line(colour = RULE, linewidth = 0.3))
+```
+
+A date in these tables is the date a report said something, not the date it
+happened. For a model of when capacity came online, treat `opened_by` as an
+upper bound on the opening and model the delay from opening to first mention.
+
+## The capacity series
+
+`capacity_indicators.csv` has a fixed vocabulary of ten indicators. The INSP
+situation reports carry bed tables until early August; WHO AFRO's weekly
+reports carry national and province figures from late June. Where they
+overlap the two can be checked against each other.
+
+```{r fig-cap-coverage}
+#| fig-cap: "Which indicators each source gives, when, at national or province level. One mark a figure."
+#| fig-alt: "Dot matrix of indicators against date, coloured by source."
+#| fig-height: 4
+cov <- drc[level %in% c("national", "province")]
+ggplot(cov, aes(as_of_date, indicator, colour = source)) +
+    geom_point(shape = 124, size = 3) +
+    scale_y_discrete(limits = rev) +
+    facet_wrap(~level, ncol = 1) +
+    scale_colour_manual(values = SOURCE_COLOURS, labels = SOURCE_LABELS) +
+    scale_x_outbreak() +
+    labs(x = NULL, y = NULL)
+```
+
+### When a report gives two figures
+
+A report sometimes gives two different figures for the same indicator, place
+and date. Every figure stays in the table. The column `preferred` marks the
+one a series should use, chosen by these rules in order, decided by Kath
+Sherratt on 26 September 2026 and recorded in
+`registry/capacity_decisions.csv`:
+
+1. "Increased from A to B": B is current; A belongs to the week before.
+2. Where the report states a numerator and denominator, the occupancy
+   consistent with them is preferred over a printed percentage that
+   contradicts them. Where no beds-occupied figure is printed, patients in
+   isolation stands in as the numerator.
+3. Otherwise the headline figure box beats a narrative sentence.
+
+```{r tab-conflicts, eval = !is.null(conflicts)}
+conflicts[, how := fcase(
+    startsWith(rule, "rule1"), "1: from A to B",
+    startsWith(rule, "rule2"), "2: numerator and denominator",
+    startsWith(rule, "rule3"), "3: headline box",
+    startsWith(rule, "decision"), "read by hand",
+    default = "not settled")]
+cf <- conflicts[, .(Figures = .N), by = .(Indicator = indicator,
+    `Settled by` = how)]
+html_table(cf[order(Indicator)], align = c("l", "l", "r"))
+```
+
+<!-- UNCERTAIN: rule 2 treats patients in isolation as beds occupied when
+no occupied count is printed (afro-12). Isolation can include patients in
+transit centres not counted in bed capacity. See DEVLOG item 10. -->
+
+A key with no preferred figure is one the rules could not settle; it is
+listed in `checks/capacity_conflicts.csv` and left out of any series.
+
+```{r overlap-intro, eval = has_insp, results = "asis"}
+cat("### INSP against WHO AFRO\n\n")
+```
+
+```{r fig-overlap, eval = has_insp}
+#| fig-cap: "Patients in isolation and bed occupancy, national, where both sources give a figure. INSP is daily, WHO AFRO weekly."
+#| fig-alt: "Two panels comparing INSP and WHO AFRO national figures over the weeks both report."
+#| fig-height: 4
+ov <- drc[preferred & level == "national" &
+    indicator %in% c("patients_in_isolation", "bed_occupancy_pct",
+        "beds_capacity")]
+span <- ov[, .(from = min(as_of_date), to = max(as_of_date)), by = source]
+lo <- max(span$from) - 14
+hi <- min(span$to) + 14
+ov <- ov[between(as_of_date, lo, hi)]
+ov[, seg := gap_group(as_of_date), by = .(source, indicator)]
+ov[, indicator := fcase(indicator == "bed_occupancy_pct", "Bed occupancy (%)",
+    indicator == "beds_capacity", "Active beds",
+    indicator == "patients_in_isolation", "Patients in isolation")]
+ggplot(ov, aes(as_of_date, value, colour = source,
+    group = interaction(source, seg))) +
+    geom_line(linewidth = 0.5) +
+    geom_point(size = 1) +
+    facet_wrap(~indicator, scales = "free_y", ncol = 1) +
+    scale_colour_manual(values = SOURCE_COLOURS, labels = SOURCE_LABELS) +
+    scale_x_date(date_labels = "%e %b") +
+    labs(x = NULL, y = NULL)
+```
+
+```{r tab-overlap, eval = has_insp}
+vs <- fread(data_path("..", "checks", "capacity_insp_vs_afro.csv"))
+vs <- vs[!is.na(ratio)]
+html_table(vs[, .(Pairs = .N,
+    `Median INSP / AFRO` = sprintf("%.2f", median(ratio)),
+    `Middle 80 %` = sprintf("%.2f to %.2f", quantile(ratio, 0.1),
+        quantile(ratio, 0.9))), by = .(Indicator = indicator)],
+    align = c("l", "r", "r", "r"))
+```
+
+Each INSP daily figure is paired with any WHO AFRO figure for the same
+indicator within three days, so part of the spread is a day's change rather
+than disagreement. Stock figures (beds, occupancy, patients in isolation)
+agree to within a few per cent at the median. Discharges do not: WHO AFRO's
+cumulative recoveries and INSP's daily `Sorties Guéris` are not the same
+count, and should not be joined.
+
+The close agreement is not independent confirmation. WHO AFRO's DRC figures
+are most likely compiled from the same national data INSP publishes, so the
+two sources agree because they share an origin. What the overlap does show is
+that the series can be spliced: INSP to early August, WHO AFRO after, with no
+step at the join.
+
+## INSP against BVDOutbreakSize
+
+```{r tab-bos}
+bos_path <- data_path("..", "checks", "compare_bos_province_care.csv")
+bos <- if (file.exists(bos_path)) fread(bos_path) else NULL
+if (!is.null(bos)) {
+    both <- bos[status %in% c("all_agree", "ours_differs")]
+    html_table(both[, .(Cells = .N, Agree = sum(status == "all_agree"),
+        `Second read only` = sum(is.na(bos_scan))),
+        by = .(Quantity = quantity)],
+        align = c("l", "r", "r", "r"))
+}
+```
+
+[BVDOutbreakSize](https://github.com/epiforecasts/BVDOutbreakSize) reads the
+same INSP province tables twice, a scan and a blind read, for its treatment
+model. `R/33_compare_bos.R` joins those reads to this repository's on SitRep
+and province, SitReps 018 to 080. Unlike WHO AFRO, these are separate reads of
+one printed table, so agreement here is a check on the reading, not on the
+source. "Second read only" counts cells where BVDOutbreakSize has only its
+blind read, for which this repository is the second. Escapes and patients in a
+bed have no counterpart there. The comparison records the BVDOutbreakSize
+commit it ran against, `r if (!is.null(bos)) substr(bos$bos_commit[1], 1, 8)`.
+
+## Before using this in a model
+
+- Filter on `country`. The WHO AFRO rows include Uganda, and
+  `r drc[country == "", .N]` rows have no country.
+- Use `preferred`. Without it a national series double-counts dates where a
+  report printed two figures.
+- Occupancy above 100 % is printed by WHO AFRO for Nord-Kivu in several weeks.
+  It is kept as printed; the reports do not say what it counts.
+- Absence is not zero. A figure a report did not print is missing, never 0.
+- Facility counts are an upper bound until the open naming questions are
+  settled.
+- Facility bed counts are sparse: `r facilities[!is.na(beds_latest), .N]`
+  facilities have one, because the INSP facility bed table stops after SitRep
+  090.
+- `r events[name_status != "named", .N]` events describe a site without a
+  usable name. They are in `facility_events.csv` with an empty `facility_id`
+  and absent from every per-facility table.
+
+## Sources and citation
+
+Institut National de Santé Publique, DRC (2026), situation reports on the
+17th Ebola virus disease epidemic, <https://insp.cd/ebola-17eme-epidemie/>,
+via the corpus in [bvd-sitreps](https://github.com/epiforecasts/bvd-sitreps).
+WHO Regional Office for Africa weekly situation reports, CC BY-NC-SA 3.0 IGO.
+GRID3 COD Health Facilities v8.0, CC BY 4.0,
+[doi:10.7916/f1ft-y872](https://doi.org/10.7916/f1ft-y872).
+
+Cite the report a figure came from. If you relied on the facility identities
+or opening intervals, also cite
+[bvd-capacity](https://github.com/epiforecasts/bvd-capacity).

@@ -1,0 +1,34 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - index.qmd
+    - methods.qmd
+
+website:
+  title: "BVD 2026 facilities and beds"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Overview
+      - href: methods.qmd
+        text: Data and methods
+    right:
+      - icon: github
+        href: https://github.com/epiforecasts/bvd-capacity
+
+execute:
+  freeze: auto
+  echo: false
+  warning: false
+  message: false
+
+format:
+  html:
+    theme: default
+    css: style.css
+    toc: true
+    fig-width: 7
+    fig-height: 4
+    fig-dpi: 150
+    lang: en-GB
